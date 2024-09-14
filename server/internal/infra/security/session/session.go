@@ -5,11 +5,10 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"strconv"
 	"time"
 
-	"go.uber.org/fx"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
+	"go.uber.org/fx"
 )
 
 type SessionService struct {
@@ -34,7 +33,7 @@ type Session struct {
 }
 
 type SessionData struct {
-	UserID   int64 `json:"-"`
+	UserID   string `json:"-"`
 	UserName string
 	DeviceInfo
 	Exp       time.Time
@@ -48,7 +47,7 @@ type DeviceInfo struct {
 
 const sessionKeyPrefix string = "sess"
 
-func (ss *SessionService) NewSession(ctx context.Context, userID int64, userName string, deviceInfo DeviceInfo) (sessionID *Session, err error) {
+func (ss *SessionService) NewSession(ctx context.Context, userID string, userName string, deviceInfo DeviceInfo) (sessionID *Session, err error) {
 	rc, err := ss.keyStore.KSClient(ctx)
 	if err != nil {
 		return nil, err
@@ -83,7 +82,7 @@ func (ss *SessionService) NewSession(ctx context.Context, userID int64, userName
 	return &Session{
 		SessionID: token,
 		SessionData: SessionData{
-			UserID:     int64(userID),
+			UserID:     userID,
 			UserName:   userName,
 			DeviceInfo: deviceInfo,
 			Exp:        expiry,
@@ -118,15 +117,15 @@ func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string)
 		return nil, err
 	}
 
-	userID, err := strconv.Atoi(data["UserID"])
-	if err != nil {
-		return nil, err
+	userID, ok := data["UserID"]
+	if !ok {
+		return nil, fmt.Errorf("user id is not valid")
 	}
 
 	session = &Session{
 		SessionID: sessionID,
 		SessionData: SessionData{
-			UserID:   int64(userID),
+			UserID:   userID,
 			UserName: data["UserName"],
 			DeviceInfo: DeviceInfo{
 				UserAgent: data["UserAgent"],
