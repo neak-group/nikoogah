@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/controller"
+	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/internal/infra/dbfx"
 	"github.com/neak-group/nikoogah/internal/infra/httpserver"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
@@ -39,6 +40,7 @@ func Boot() (*fx.App, error) {
 		security.Module,
 		//Init Repositories
 		repository.GetModule(),
+		eventbus.Module,
 		app.GetModule(),
 		controller.GetModule(),
 		fx.Provide(

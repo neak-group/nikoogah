@@ -8,6 +8,8 @@ func GetModule() fx.Option {
 
 var providers []interface{}
 
+var eventHandlers []interface{}
+
 func RegisterUseCaseProvider(provider interface{}) {
 	if provider == nil {
 		return
