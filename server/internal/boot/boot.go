@@ -4,11 +4,14 @@ import (
 	"net/http"
 
 	"github.com/joho/godotenv"
+	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/controller"
 	"github.com/neak-group/nikoogah/internal/infra/dbfx"
 	"github.com/neak-group/nikoogah/internal/infra/httpserver"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
 	"github.com/neak-group/nikoogah/internal/infra/security"
 	"github.com/neak-group/nikoogah/internal/infra/telemetry"
+	"github.com/neak-group/nikoogah/internal/repository"
 	"github.com/spf13/viper"
 	"go.uber.org/fx"
 )
@@ -34,6 +37,10 @@ func Boot() (*fx.App, error) {
 		keystorefx.Module,
 		//InitStorage
 		security.Module,
+		//Init Repositories
+		repository.GetModule(),
+		app.GetModule(),
+		controller.GetModule(),
 		fx.Provide(
 			httpserver.NewHTTPServer,
 		),
