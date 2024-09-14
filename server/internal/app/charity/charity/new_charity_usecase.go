@@ -16,19 +16,19 @@ type RegisterCharityUCParams struct {
 	Repo CharityRepository
 }
 
-func ProvideRegisterCharity(params RegisterCharityUCParams) *RegisterCharityUseCase {
+func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
 	return &RegisterCharityUseCase{
 		repo: params.Repo,
 	}
 }
 
 func init() {
-	app.RegisterUseCaseProvider(ProvideRegisterCharity)
+	app.RegisterUseCaseProvider(ProvideRegisterCharityUC)
 }
 
-type NewCharityParams struct {
+type RegisterCharityParams struct {
 }
 
-func (uc RegisterCharityUseCase) Execute(params NewCharityParams) (uuid.UUID, error) {
+func (uc RegisterCharityUseCase) Execute(params RegisterCharityParams) (uuid.UUID, error) {
 	return uuid.Nil, nil
 }
