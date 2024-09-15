@@ -2,13 +2,12 @@ package charity
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
-	"github.com/neak-group/nikoogah/internal/app/charity/charity/valueobjects"
+	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"go.uber.org/fx"
 )
 
@@ -19,7 +18,8 @@ type RegisterCharityUseCase struct {
 type RegisterCharityUCParams struct {
 	fx.In
 
-	Repo CharityRepository
+	Repo     CharityRepository
+	EventBus eventbus.EventBus
 }
 
 func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
@@ -49,46 +49,34 @@ type RegisterCharityParams struct {
 func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCharityParams) (uuid.UUID, error) {
 	//TODO: fix aggregate transactions
 
-	tierID, err := uc.repo.FindCharityTierID("basic")
+	charity, err := entity.NewCharity(params.Name)
 	if err != nil {
-		//TODO: fix error
 		return uuid.Nil, err
 	}
 
-	phone, ok := valueobjects.NewPhone(params.Phone, params.CityPhoneCode)
-	if !ok {
-		// TODO: fix Error
-		return uuid.Nil, fmt.Errorf("invalid phone number")
+	if err := charity.NewAddress(params.Province, params.City, params.Address, params.PostalCode); err != nil {
+		return uuid.Nil, err
 	}
 
-	address, ok := valueobjects.NewAddress(params.Province, params.City, params.Address, params.PostalCode)
-	if !ok {
-		// TODO: fix Error
-		return uuid.Nil, fmt.Errorf("invalid address")
+	if err := charity.NewPhone(params.Phone, params.CityPhoneCode); err != nil {
+		return uuid.Nil, err
 	}
 
-	email, ok := valueobjects.NewEmail(params.Email)
-	if !ok {
-		// TODO: fix Error
-		return uuid.Nil, fmt.Errorf("invalid email")
+	if err := charity.NewEmail(params.Email); err != nil {
+		return uuid.Nil, err
 	}
 
-	charity := &entity.Charity{
-		CharityTierID:   tierID,
-		Name:            params.Name,
-		Address:         address,
-		Phone:           phone,
-		EmailAddress:    email,
-		NationalID:      params.NationalID,
-		EconomicNumber:  params.EconomicID,
-		CEO:             params.CEO,
-		Representatives: make([]*entity.Representative, 0),
+	if err := charity.UpdateOfficialData(params.NationalID, params.EconomicID, params.CEO); err != nil {
+		return uuid.Nil, err
 	}
 
 	firstRepresentative := &entity.Representative{
 		UserID:   uuid.Nil, // TODO: read user id from context
 		Role:     entity.Manager,
 		JoinedAt: time.Now(),
+	}
+	if err != nil {
+		return uuid.Nil, err
 	}
 
 	charity.Representatives = append(charity.Representatives, firstRepresentative)
