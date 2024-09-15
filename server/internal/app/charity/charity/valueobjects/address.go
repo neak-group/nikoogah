@@ -7,11 +7,12 @@ type Address struct {
 	PostalCode   string
 }
 
-func NewAddress(province, city, local, postalcode string) Address {
+func NewAddress(province, city, local, postalcode string) (Address, bool) {
+	//TODO: fix validation
 	return Address{
 		Province:     province,
 		City:         city,
 		LocalAddress: local,
 		PostalCode:   postalcode,
-	}
+	}, true
 }

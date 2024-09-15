@@ -1,6 +1,8 @@
 package charity
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"go.uber.org/fx"
@@ -29,6 +31,6 @@ func init() {
 type UpdateCredibilityParams struct {
 }
 
-func (uc UpdateCredibilityUseCase) Execute(params UpdateCredibilityParams) (uuid.UUID, error) {
+func (uc UpdateCredibilityUseCase) Execute(ctx context.Context, params UpdateCredibilityParams) (uuid.UUID, error) {
 	return uuid.Nil, nil
 }

@@ -1,6 +1,8 @@
 package charity
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"go.uber.org/fx"
@@ -29,6 +31,7 @@ func init() {
 type AddRepresentativeParams struct {
 }
 
-func (uc AddRepresentativeUseCase) Execute(params AddRepresentativeParams) (uuid.UUID, error) {
+func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params AddRepresentativeParams) (uuid.UUID, error) {
+	
 	return uuid.Nil, nil
 }

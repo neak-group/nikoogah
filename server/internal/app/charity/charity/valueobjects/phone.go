@@ -5,14 +5,21 @@ type PhoneNumber struct {
 	Number       string
 }
 
-func (PhoneNumber) PhoneIsValid() bool {
-	return true
+func NewPhone(phone string, regionalCode string) (PhoneNumber, bool) {
+	//TODO: fix validations
+	return PhoneNumber{
+		RegionalCode: regionalCode,
+		Number:       phone,
+	}, true
 }
 
 type CellPhoneNumber struct {
 	Number string
 }
 
-func (CellPhoneNumber) PhoneIsValid() bool {
-	return true
+func NewCellPhone(phone string) (CellPhoneNumber, bool) {
+	//TODO: fix validations
+	return CellPhoneNumber{
+		Number: phone,
+	}, true
 }

@@ -6,5 +6,6 @@ import (
 )
 
 type CharityRepository interface {
-	CreateCharity(charity entity.Charity) (uuid.UUID, error)
+	FindCharityTierID(name string) (uuid.UUID, error)
+	CreateCharity(charity *entity.Charity) (uuid.UUID, error)
 }

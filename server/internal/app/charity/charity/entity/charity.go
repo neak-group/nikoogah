@@ -8,12 +8,12 @@ import (
 )
 
 type Charity struct {
+	ID             uuid.UUID
 	CharityTierID  uuid.UUID
 	Name           string
-	Address        string
+	Address        valueobjects.Address
 	Phone          valueobjects.PhoneNumber
 	EmailAddress   valueobjects.EmailAddress
-	PostalCode     string
 	NationalID     string
 	EconomicNumber string
 	CEO            string

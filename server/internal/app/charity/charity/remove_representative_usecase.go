@@ -1,6 +1,8 @@
 package charity
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"go.uber.org/fx"
@@ -29,6 +31,6 @@ func init() {
 type RemoveRepresentativeParams struct {
 }
 
-func (uc RemoveRepresentativeUseCase) Execute(params RemoveRepresentativeParams) (uuid.UUID, error) {
+func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params RemoveRepresentativeParams) (uuid.UUID, error) {
 	return uuid.Nil, nil
 }

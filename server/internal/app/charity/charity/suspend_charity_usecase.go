@@ -1,6 +1,8 @@
 package charity
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"go.uber.org/fx"
@@ -29,6 +31,6 @@ func init() {
 type SuspendCharityParams struct {
 }
 
-func (uc SuspendCharityUseCase) Execute(params SuspendCharityParams) (uuid.UUID, error) {
+func (uc SuspendCharityUseCase) Execute(ctx context.Context, params SuspendCharityParams) (uuid.UUID, error) {
 	return uuid.Nil, nil
 }

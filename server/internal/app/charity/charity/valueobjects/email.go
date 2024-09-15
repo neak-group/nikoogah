@@ -2,6 +2,9 @@ package valueobjects
 
 type EmailAddress string
 
-func (e EmailAddress) EmailIsValid() (valid bool) {
-	return true
+func NewEmail(email string) (EmailAddress, bool) {
+
+	//TODO: fix validation
+
+	return EmailAddress(email), true
 }
