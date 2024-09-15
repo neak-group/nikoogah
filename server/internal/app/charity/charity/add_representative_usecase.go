@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"go.uber.org/fx"
 )
 
@@ -15,7 +16,8 @@ type AddRepresentativeUseCase struct {
 type AddRepresentativeUCParams struct {
 	fx.In
 
-	Repo CharityRepository
+	Repo     CharityRepository
+	EventBus eventbus.EventBus
 }
 
 func ProvideAddRepresentativeUC(params AddRepresentativeUCParams) *AddRepresentativeUseCase {
@@ -32,6 +34,6 @@ type AddRepresentativeParams struct {
 }
 
 func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params AddRepresentativeParams) (uuid.UUID, error) {
-	
+
 	return uuid.Nil, nil
 }

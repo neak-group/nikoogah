@@ -11,18 +11,20 @@ type EventDispatcherParams struct {
 	Logger   *zap.Logger
 }
 
-func ProvideEventDispatcher(params EventDispatcherParams) eventdispatcher.EventDispatcher {
-	return &EventDispatcherImpl{
-		eventbus: params.EventBus,
-		logger:   params.Logger,
+func ProvideEventDispatcher(EventBus eventbus.EventBus, Logger *zap.Logger) eventdispatcher.EventDispatcher {
+	return &eventDispatcherImpl{
+		eventbus: EventBus,
+		logger:   Logger,
 	}
 }
 
-type EventDispatcherImpl struct {
+type eventDispatcherImpl struct {
 	eventbus eventbus.EventBus
 	logger   *zap.Logger
 }
 
-func (EventDispatcherImpl) Dispatch(event eventbus.Event) error {
-	return nil
+func (ed eventDispatcherImpl) Dispatch(event eventbus.Event) error {
+
+	//TODO: Dead Letter Pattern
+	return ed.eventbus.Publish(event)
 }

@@ -4,16 +4,6 @@ import (
 	"sync"
 
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
-	"go.uber.org/fx"
-)
-
-var Module = fx.Module("event-bus",
-	fx.Provide(
-		fx.Annotate(
-			ProvideEventBus,
-			fx.ParamTags(`group:"eventHandlers`),
-		),
-	),
 )
 
 type eventBusImpl struct {
