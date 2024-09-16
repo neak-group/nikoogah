@@ -12,4 +12,5 @@ type CharityRepository interface {
 	SaveCharity(charity *entity.Charity) (uuid.UUID, error)
 
 	FindRepresentativeByUserID(userID uuid.UUID) (*entity.Representative, error)
+	FindExistingRepresentativeByUserID(userID uuid.UUID) (bool, error)
 }

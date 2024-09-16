@@ -5,26 +5,26 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
-	"github.com/neak-group/nikoogah/internal/core/service/eventdispatcher"
 )
 
 type ModifyCharityUseCase struct {
 	app.BaseUseCase
-	repo            CharityRepository
-	eventDispatcher eventdispatcher.EventDispatcher
+	repo CharityRepository
 }
 
 type ModifyCharityUCParams struct {
 	app.UseCaseParams
 
-	Repo            CharityRepository
-	EventDispatcher eventdispatcher.EventDispatcher
+	Repo CharityRepository
 }
 
 func ProvideModifyCharityUC(params ModifyCharityUCParams) *ModifyCharityUseCase {
 	return &ModifyCharityUseCase{
-		repo:            params.Repo,
-		eventDispatcher: params.EventDispatcher,
+		repo: params.Repo,
+		BaseUseCase: app.BaseUseCase{
+			Logger:          params.Logger,
+			EventDispatcher: params.EventDispatcher,
+		},
 	}
 }
 
@@ -75,7 +75,7 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharity
 
 	//TODO: fire event charity created
 	for _, e := range charity.Events {
-		if err := uc.eventDispatcher.Dispatch(e); err != nil {
+		if err := uc.EventDispatcher.Dispatch(e); err != nil {
 			uc.Logger.Error(err.Error())
 		}
 	}

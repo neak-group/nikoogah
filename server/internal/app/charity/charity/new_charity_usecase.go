@@ -2,31 +2,31 @@ package charity
 
 import (
 	"context"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
-	"github.com/neak-group/nikoogah/internal/core/service/eventdispatcher"
+	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type RegisterCharityUseCase struct {
 	app.BaseUseCase
-	repo            CharityRepository
-	eventDispatcher eventdispatcher.EventDispatcher
+	repo CharityRepository
 }
 
 type RegisterCharityUCParams struct {
 	app.UseCaseParams
 
 	Repo CharityRepository
-	eventdispatcher.EventDispatcher
 }
 
 func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
 	return &RegisterCharityUseCase{
-		repo:            params.Repo,
-		eventDispatcher: params.EventDispatcher,
+		repo: params.Repo,
+		BaseUseCase: app.BaseUseCase{
+			Logger:          params.Logger,
+			EventDispatcher: params.EventDispatcher,
+		},
 	}
 }
 
@@ -72,16 +72,15 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCha
 		return uuid.Nil, err
 	}
 
-	firstRepresentative := &entity.Representative{
-		UserID:   uuid.Nil, // TODO: read user id from context
-		Role:     entity.Manager,
-		JoinedAt: time.Now(),
-	}
+	repID, err := contextutils.GetUserIDFromCtx(ctx)
 	if err != nil {
 		return uuid.Nil, err
 	}
 
-	charity.Representatives = append(charity.Representatives, firstRepresentative)
+	err = charity.AddRepresentative(repID, entity.Manager)
+	if err != nil {
+		return uuid.Nil, err
+	}
 
 	charityID, err := uc.repo.CreateCharity(charity)
 	if err != nil {
@@ -91,7 +90,7 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCha
 
 	//TODO: fire event charity created
 	for _, e := range charity.Events {
-		if err:= uc.eventDispatcher.Dispatch(e);err != nil {
+		if err := uc.EventDispatcher.Dispatch(e); err != nil {
 			uc.Logger.Error(err.Error())
 		}
 	}

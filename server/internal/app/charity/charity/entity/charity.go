@@ -94,3 +94,16 @@ func (c *Charity) UpdateCharityName(inputName string) error {
 	c.Name = inputName
 	return nil
 }
+
+func (c *Charity) AddRepresentative(userID uuid.UUID, role RepresentativeRole) error {
+	if role == "" {
+		role = Employee
+	}
+	c.Representatives = append(c.Representatives, &Representative{
+		UserID:   userID, // TODO: read user id from context
+		Role:     role,
+		JoinedAt: time.Now(),
+	})
+
+	return nil
+}
