@@ -3,17 +3,18 @@ package charity
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
-	"go.uber.org/fx"
 )
 
 type FetchCharityUseCase struct {
+	app.BaseUseCase
 	repo CharityRepository
 }
 
 type FetchCharityUCParams struct {
-	fx.In
+	app.UseCaseParams
 
 	Repo CharityRepository
 }
@@ -21,6 +22,10 @@ type FetchCharityUCParams struct {
 func ProvideFetchCharityUC(params FetchCharityUCParams) *FetchCharityUseCase {
 	return &FetchCharityUseCase{
 		repo: params.Repo,
+		BaseUseCase: app.BaseUseCase{
+			Logger:          params.Logger,
+			EventDispatcher: params.EventDispatcher,
+		},
 	}
 }
 
@@ -29,8 +34,14 @@ func init() {
 }
 
 type FetchCharityParams struct {
+	CharityID uuid.UUID
 }
 
 func (uc FetchCharityUseCase) Execute(ctx context.Context, params FetchCharityParams) (*entity.Charity, error) {
-	return nil, nil
+	charity, err := uc.repo.FetchCharity(params.CharityID)
+	if err != nil {
+		return nil, err
+	}
+
+	return charity, nil
 }
