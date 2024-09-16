@@ -25,7 +25,7 @@ type Charity struct {
 
 	Credibility     Credibility
 	Representatives []*Representative
-	Events          []*eventbus.Event
+	Events          []eventbus.Event
 }
 
 func NewCharity(name string) (*Charity, error) {
@@ -81,5 +81,16 @@ func (c *Charity) UpdateOfficialData(inputNationalID, inputEconomicalCode, input
 	c.NationalID = inputNationalID
 	c.EconomicNumber = inputEconomicalCode
 
+	return nil
+}
+
+func (c *Charity) UpdateCharityName(inputName string) error {
+	if c.Name == inputName {
+		return nil
+	}
+
+	// TODO: add validations
+
+	c.Name = inputName
 	return nil
 }

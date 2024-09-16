@@ -7,24 +7,26 @@ import (
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
-	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
-	"go.uber.org/fx"
+	"github.com/neak-group/nikoogah/internal/core/service/eventdispatcher"
 )
 
 type RegisterCharityUseCase struct {
-	repo CharityRepository
+	app.BaseUseCase
+	repo            CharityRepository
+	eventDispatcher eventdispatcher.EventDispatcher
 }
 
 type RegisterCharityUCParams struct {
-	fx.In
+	app.UseCaseParams
 
-	Repo     CharityRepository
-	EventBus eventbus.EventBus
+	Repo CharityRepository
+	eventdispatcher.EventDispatcher
 }
 
 func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
 	return &RegisterCharityUseCase{
-		repo: params.Repo,
+		repo:            params.Repo,
+		eventDispatcher: params.EventDispatcher,
 	}
 }
 
@@ -88,6 +90,11 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCha
 	}
 
 	//TODO: fire event charity created
+	for _, e := range charity.Events {
+		if err:= uc.eventDispatcher.Dispatch(e);err != nil {
+			uc.Logger.Error(err.Error())
+		}
+	}
 
 	return charityID, nil
 }

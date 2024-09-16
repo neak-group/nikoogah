@@ -5,22 +5,26 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
-	"go.uber.org/fx"
+	"github.com/neak-group/nikoogah/internal/core/service/eventdispatcher"
 )
 
 type ModifyCharityUseCase struct {
-	repo CharityRepository
+	app.BaseUseCase
+	repo            CharityRepository
+	eventDispatcher eventdispatcher.EventDispatcher
 }
 
 type ModifyCharityUCParams struct {
-	fx.In
+	app.UseCaseParams
 
-	Repo CharityRepository
+	Repo            CharityRepository
+	EventDispatcher eventdispatcher.EventDispatcher
 }
 
 func ProvideModifyCharityUC(params ModifyCharityUCParams) *ModifyCharityUseCase {
 	return &ModifyCharityUseCase{
-		repo: params.Repo,
+		repo:            params.Repo,
+		eventDispatcher: params.EventDispatcher,
 	}
 }
 
@@ -29,8 +33,52 @@ func init() {
 }
 
 type ModifyCharityParams struct {
+	ID            uuid.UUID
+	Name          string
+	Phone         string
+	CityPhoneCode string
+	Email         string
+	Province      string
+	City          string
+	Address       string
+	PostalCode    string
 }
 
 func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharityParams) (uuid.UUID, error) {
-	return uuid.Nil, nil
+	charity, err := uc.repo.FetchCharity(params.ID)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	err = charity.UpdateCharityName(params.Name)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	if err := charity.NewAddress(params.Province, params.City, params.Address, params.PostalCode); err != nil {
+		return uuid.Nil, err
+	}
+
+	if err := charity.NewPhone(params.Phone, params.CityPhoneCode); err != nil {
+		return uuid.Nil, err
+	}
+
+	if err := charity.NewEmail(params.Email); err != nil {
+		return uuid.Nil, err
+	}
+
+	charityID, err := uc.repo.SaveCharity(charity)
+	if err != nil {
+		//TODO: fix error
+		return uuid.Nil, err
+	}
+
+	//TODO: fire event charity created
+	for _, e := range charity.Events {
+		if err := uc.eventDispatcher.Dispatch(e); err != nil {
+			uc.Logger.Error(err.Error())
+		}
+	}
+
+	return charityID, nil
 }

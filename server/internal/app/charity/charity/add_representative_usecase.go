@@ -31,9 +31,11 @@ func init() {
 }
 
 type AddRepresentativeParams struct {
+	CharityID uuid.UUID
+	UserID    uuid.UUID
 }
 
 func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params AddRepresentativeParams) (uuid.UUID, error) {
-
+	
 	return uuid.Nil, nil
 }
