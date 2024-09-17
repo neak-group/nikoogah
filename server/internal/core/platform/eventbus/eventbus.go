@@ -1,6 +1,7 @@
 package eventbus
 
 import (
+	"context"
 	"sync"
 
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
@@ -34,7 +35,7 @@ func (bus *eventBusImpl) Publish(event eventbus.Event) error {
 	defer bus.mutex.RUnlock()
 	if handlers, found := bus.handlers[event.GetEventType()]; found {
 		for _, handler := range handlers {
-			go handler.Handle(event)
+			go handler.Handle(context.TODO(), event)
 		}
 	}
 	return nil

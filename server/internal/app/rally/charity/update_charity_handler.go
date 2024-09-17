@@ -24,13 +24,17 @@ func init() {
 	app.RegisterHandlerProvider(ProvideCharityHandler)
 }
 
-func ProvideCharityHandler(params UpdateCharityHandlerFxParams) *UpdateCharityHandler {
+func ProvideCharityHandler(params UpdateCharityHandlerFxParams) eventbus.EventHandler {
 	return &UpdateCharityHandler{
 		repo: params.Repo,
 		BaseHandler: app.BaseHandler{
 			Logger: params.Logger,
 		},
 	}
+}
+
+func (h UpdateCharityHandler) GetEventType()string{
+	return events.CharityUpdatedEvent{}.GetEventType()
 }
 
 func (h UpdateCharityHandler) Handle(ctx context.Context, e eventbus.Event) error {

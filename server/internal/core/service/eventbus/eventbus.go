@@ -1,11 +1,13 @@
 package eventbus
 
+import "context"
+
 type Event interface {
 	GetEventType() string
 }
 
 type EventHandler interface {
-	Handle(Event) error
+	Handle(context.Context, Event) error
 	GetEventType() string
 }
 
