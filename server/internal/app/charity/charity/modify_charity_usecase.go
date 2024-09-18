@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 )
 
 type ModifyCharityUseCase struct {
@@ -49,6 +50,7 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharity
 	if err != nil {
 		return uuid.Nil, err
 	}
+	charity.Events = make([]eventbus.Event, 0)
 
 	err = charity.UpdateCharityName(params.Name)
 	if err != nil {

@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
@@ -45,6 +46,7 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params Remove
 	if err != nil {
 		return err
 	}
+	charity.Events = make([]eventbus.Event, 0)
 
 	requesterID, err := contextutils.GetUserIDFromCtx(ctx)
 	if err != nil {

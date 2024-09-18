@@ -33,6 +33,8 @@ func NewCharity(name string) (*Charity, error) {
 		CharityTierID:   "basic",
 		Name:            name,
 		Representatives: make([]*Representative, 0),
+
+		Events: make([]eventbus.Event, 0),
 	}
 
 	return charity, nil
