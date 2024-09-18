@@ -25,6 +25,7 @@ type Rally struct {
 	EndDate     time.Time
 	Description string
 	State       RallyState
+	RallyFee    decimal.Decimal
 
 	NeedsHumanParticipation bool
 	ApplicantCap            int

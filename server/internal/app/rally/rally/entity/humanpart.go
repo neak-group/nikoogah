@@ -2,10 +2,17 @@ package entity
 
 import "github.com/google/uuid"
 
+type ParticipationStatus string
 
-type HumanParticipation struct{
+const (
+	Pending  ParticipationStatus = "pending"
+	Accepted ParticipationStatus = "accepted"
+	Rejected ParticipationStatus = "rejected"
+)
+
+type HumanParticipation struct {
 	VolunteerID uuid.UUID
-	Phone string
-	Email string
-	ResumeFile string	
+	Phone       string
+	Email       string
+	ResumeFile  string
 }

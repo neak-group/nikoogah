@@ -15,4 +15,5 @@ type RallyRepository interface {
 	UpdateParticipations(rally *entity.Rally, hp *entity.HumanParticipation, fp *entity.FundParticipation)
 	FetchCharityRallyLimit(charityID uuid.UUID) (int, error)
 	FetchRalliesByChrityID(charityID uuid.UUID, onlyActive bool) ([]*entity.Rally, error)
+	FetchRallyParticipationCount(rallyID uuid.UUID, status entity.ParticipationStatus) (int, error)
 }
