@@ -6,7 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/controller"
-	"github.com/neak-group/nikoogah/internal/core/platform"
+	platform "github.com/neak-group/nikoogah/internal/core/interface"
 	"github.com/neak-group/nikoogah/internal/infra/dbfx"
 	"github.com/neak-group/nikoogah/internal/infra/httpserver"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"

@@ -1,8 +1,8 @@
 package platform
 
 import (
-	"github.com/neak-group/nikoogah/internal/core/platform/eventbus"
-	"github.com/neak-group/nikoogah/internal/core/platform/eventdispatcher"
+	"github.com/neak-group/nikoogah/internal/core/interface/eventbus"
+	"github.com/neak-group/nikoogah/internal/core/interface/eventdispatcher"
 	"go.uber.org/fx"
 )
 
