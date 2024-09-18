@@ -8,10 +8,10 @@ type Event interface {
 
 type EventHandler interface {
 	Handle(context.Context, Event) error
-	GetEventType() string
+	GetEventTypes() []string
 }
 
 type EventBus interface {
-	Register(eventType string, handler EventHandler)
+	Register(eventType []string, handler EventHandler)
 	Publish(event Event) error
 }

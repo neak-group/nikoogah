@@ -33,8 +33,8 @@ func ProvideCharityHandler(params UpdateCharityHandlerFxParams) eventbus.EventHa
 	}
 }
 
-func (h UpdateCharityHandler) GetEventType()string{
-	return events.CharityUpdatedEvent{}.GetEventType()
+func (h UpdateCharityHandler) GetEventTypes() []string {
+	return []string{events.CharityUpdatedEvent{}.GetEventType()}
 }
 
 func (h UpdateCharityHandler) Handle(ctx context.Context, e eventbus.Event) error {

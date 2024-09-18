@@ -18,16 +18,19 @@ func ProvideEventBus(handlers []eventbus.EventHandler) eventbus.EventBus {
 	}
 
 	for _, h := range handlers {
-		eventBus.Register(h.GetEventType(), h)
+		eventBus.Register(h.GetEventTypes(), h)
 	}
 
 	return eventBus
 }
 
-func (bus *eventBusImpl) Register(eventType string, handler eventbus.EventHandler) {
+func (bus *eventBusImpl) Register(eventTypes []string, handler eventbus.EventHandler) {
 	bus.mutex.Lock()
 	defer bus.mutex.Unlock()
-	bus.handlers[eventType] = append(bus.handlers[eventType], handler)
+	for _, eventType := range eventTypes {
+		
+		bus.handlers[eventType] = append(bus.handlers[eventType], handler)
+	}
 }
 
 func (bus *eventBusImpl) Publish(event eventbus.Event) error {

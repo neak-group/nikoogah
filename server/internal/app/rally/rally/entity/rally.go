@@ -11,10 +11,11 @@ import (
 type RallyState string
 
 const (
-	Pending   RallyState = "pending"
-	Active    RallyState = "active"
-	Suspended RallyState = "suspended"
-	Archived  RallyState = "archived"
+	PendingVerification RallyState = "pending-verification"
+	Active              RallyState = "active"
+	PendingReport       RallyState = "pending-report"
+	Suspended           RallyState = "suspended"
+	Archived            RallyState = "archived"
 )
 
 type Rally struct {
@@ -46,7 +47,7 @@ func NewRally(title, description string, charityID uuid.UUID, EndDate time.Time)
 		Title:       title,
 		Description: description,
 		EndDate:     EndDate,
-		State:       Pending,
+		State:       PendingVerification,
 
 		HumanParticipations: make([]*HumanParticipation, 0),
 		FundParticipation:   make([]*FundParticipation, 0),
