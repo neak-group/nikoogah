@@ -77,11 +77,7 @@ func (uc *NewRallyUseCase) Execute(ctx context.Context, params NewRallyParams) (
 		return uuid.Nil, err
 	}
 
-	for _, e := range rally.Events {
-		if err := uc.EventDispatcher.Dispatch(e); err != nil {
-			uc.Logger.Error(err.Error())
-		}
-	}
+	uc.EventDispatcher.DispatchBatch(rally.Events)
 
 	return rally.ID, nil
 }

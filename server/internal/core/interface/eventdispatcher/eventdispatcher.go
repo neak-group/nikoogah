@@ -28,3 +28,15 @@ func (ed eventDispatcherImpl) Dispatch(event eventbus.Event) error {
 	//TODO: Dead Letter Pattern
 	return ed.eventbus.Publish(event)
 }
+
+func (ed eventDispatcherImpl) DispatchBatch(events []eventbus.Event) error {
+
+	//TODO: Dead Letter Pattern
+	for _, e := range events {
+		if err := ed.eventbus.Publish(e); err != nil {
+			ed.logger.Error(err.Error())
+		}
+	}
+
+	return nil
+}

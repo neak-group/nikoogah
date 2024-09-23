@@ -5,9 +5,9 @@ import "github.com/google/uuid"
 type ParticipationStatus string
 
 const (
-	Pending  ParticipationStatus = "pending"
-	Accepted ParticipationStatus = "accepted"
-	Rejected ParticipationStatus = "rejected"
+	ParticipationPending  ParticipationStatus = "pending"
+	ParticipationAccepted ParticipationStatus = "accepted"
+	ParticipationRejected ParticipationStatus = "rejected"
 )
 
 type HumanParticipation struct {
@@ -15,4 +15,6 @@ type HumanParticipation struct {
 	Phone       string
 	Email       string
 	ResumeFile  string
+	Status      ParticipationStatus
 }
+

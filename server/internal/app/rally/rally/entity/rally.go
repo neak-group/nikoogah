@@ -56,3 +56,20 @@ func NewRally(title, description string, charityID uuid.UUID, EndDate time.Time)
 		Events: make([]eventbus.Event, 0),
 	}, nil
 }
+
+
+func (r *Rally) AddHumanParticipation( volunteerID uuid.UUID, volunteerPhone string, volunteerEmail string, resumePath string) error{
+	//Validate Phone
+
+	//Validate Email
+
+	r.HumanParticipations = append(r.HumanParticipations, &HumanParticipation{
+		VolunteerID: volunteerID,
+		Phone: volunteerPhone,
+		Email: volunteerEmail,
+		ResumeFile: resumePath,
+		Status: ParticipationAccepted,
+	})
+	
+	return nil
+}

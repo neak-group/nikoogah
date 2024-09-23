@@ -76,11 +76,8 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharity
 	}
 
 	//TODO: fire event charity created
-	for _, e := range charity.Events {
-		if err := uc.EventDispatcher.Dispatch(e); err != nil {
-			uc.Logger.Error(err.Error())
-		}
-	}
+	uc.EventDispatcher.DispatchBatch(charity.Events)
+
 
 	return charityID, nil
 }

@@ -34,8 +34,11 @@ func init() {
 }
 
 type NewHumanParticipationParams struct {
-	RallyID     uuid.UUID
-	VolunteerID uuid.UUID
+	RallyID         uuid.UUID
+	VolunteerID     uuid.UUID
+	VolunteerPhone  string
+	VolunteerEmail  string
+	VolunteerResume string
 }
 
 func (uc *NewHumanParticipationUseCase) Execute(params NewHumanParticipationParams) error {
@@ -44,15 +47,26 @@ func (uc *NewHumanParticipationUseCase) Execute(params NewHumanParticipationPara
 		return err
 	}
 
-	count, err:= uc.repo.FetchRallyParticipationCount(rally.ID, entity.Accepted)
+	count, err := uc.repo.FetchRallyParticipationCount(rally.ID, entity.ParticipationAccepted)
 	if err != nil {
 		return err
 	}
 
-	if count>= rally.ApplicantCap {
-		return fmt.Errorf("rally limit exceeded")
+	if count >= rally.ApplicantCap {
+		return fmt.Errorf("participation limit exceeded")
 	}
-	
+
+	err = rally.AddHumanParticipation(params.VolunteerID, params.VolunteerPhone, params.VolunteerEmail, params.VolunteerResume)
+	if err != nil {
+		return err
+	}
+
+	err = uc.repo.SaveRally(rally)
+	if err != nil {
+		return err
+	}
+
+	uc.EventDispatcher.DispatchBatch(rally.Events)
 
 	return nil
 
