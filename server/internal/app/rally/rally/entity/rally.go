@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -67,12 +68,30 @@ func (r *Rally) AddHumanParticipation(volunteerID uuid.UUID, volunteerPhone stri
 
 	//Validate Email
 
+	if r.ApplicantCap == 0 {
+		return fmt.Errorf("no need for human participation")
+	}
+
 	r.HumanParticipations = append(r.HumanParticipations, &HumanParticipation{
 		VolunteerID: volunteerID,
 		Phone:       volunteerPhone,
 		Email:       volunteerEmail,
 		ResumeFile:  resumePath,
 		Status:      ParticipationAccepted,
+	})
+
+	return nil
+}
+
+func (r *Rally) AddFundParticipation(volunteerID uuid.UUID, volunteerPhone string, amount decimal.Decimal) error {
+	if r.FundAmount.IsZero() {
+		return fmt.Errorf("no need for fund participation")
+	}
+
+	r.FundParticipation = append(r.FundParticipation, &FundParticipation{
+		VolunteerID: volunteerID,
+		Amount:      amount,
+		Date:        time.Now(),
 	})
 
 	return nil

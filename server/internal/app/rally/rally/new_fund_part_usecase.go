@@ -58,7 +58,7 @@ func (uc *NewFundParticipationUseCase) Execute(params NewFundParticipationParams
 		}
 	}
 
-	// err = rally
+	err = rally.AddFundParticipation(params.VolunteerID, params.VolunteerPhone, params.Amount)
 	if err != nil {
 		return err
 	}
