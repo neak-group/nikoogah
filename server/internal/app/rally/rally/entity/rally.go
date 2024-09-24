@@ -33,6 +33,7 @@ type Rally struct {
 
 	NeedsFunding      bool
 	FundAmount        decimal.Decimal
+	OpenFund          bool
 	FundParticipation []*FundParticipation
 
 	CreatedAt time.Time
@@ -57,19 +58,22 @@ func NewRally(title, description string, charityID uuid.UUID, EndDate time.Time)
 	}, nil
 }
 
+func (r *Rally) IsOpenFund() bool {
+	return r.OpenFund
+}
 
-func (r *Rally) AddHumanParticipation( volunteerID uuid.UUID, volunteerPhone string, volunteerEmail string, resumePath string) error{
+func (r *Rally) AddHumanParticipation(volunteerID uuid.UUID, volunteerPhone string, volunteerEmail string, resumePath string) error {
 	//Validate Phone
 
 	//Validate Email
 
 	r.HumanParticipations = append(r.HumanParticipations, &HumanParticipation{
 		VolunteerID: volunteerID,
-		Phone: volunteerPhone,
-		Email: volunteerEmail,
-		ResumeFile: resumePath,
-		Status: ParticipationAccepted,
+		Phone:       volunteerPhone,
+		Email:       volunteerEmail,
+		ResumeFile:  resumePath,
+		Status:      ParticipationAccepted,
 	})
-	
+
 	return nil
 }

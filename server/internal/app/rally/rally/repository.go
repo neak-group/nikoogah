@@ -3,6 +3,7 @@ package rally
 import (
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
+	"github.com/shopspring/decimal"
 )
 
 type RallyRepository interface {
@@ -16,4 +17,5 @@ type RallyRepository interface {
 	FetchCharityRallyLimit(charityID uuid.UUID) (int, error)
 	FetchRalliesByChrityID(charityID uuid.UUID, onlyActive bool) ([]*entity.Rally, error)
 	FetchRallyParticipationCount(rallyID uuid.UUID, status entity.ParticipationStatus) (int, error)
+	FetchTargetFund(rallyID uuid.UUID) (decimal.Decimal, error)
 }

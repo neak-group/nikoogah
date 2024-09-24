@@ -19,7 +19,7 @@ type NewHumanParticipationUCParams struct {
 	Repo RallyRepository
 }
 
-func ProvideNewHumanPariticipationUC(params NewHumanParticipationUCParams) *NewHumanParticipationUseCase {
+func ProvideNewHumanParticipationUC(params NewHumanParticipationUCParams) *NewHumanParticipationUseCase {
 	return &NewHumanParticipationUseCase{
 		repo: params.Repo,
 		BaseUseCase: app.BaseUseCase{
@@ -30,7 +30,7 @@ func ProvideNewHumanPariticipationUC(params NewHumanParticipationUCParams) *NewH
 }
 
 func init() {
-	app.RegisterUseCaseProvider(ProvideNewHumanPariticipationUC)
+	app.RegisterUseCaseProvider(ProvideNewHumanParticipationUC)
 }
 
 type NewHumanParticipationParams struct {

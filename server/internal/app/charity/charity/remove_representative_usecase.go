@@ -83,6 +83,5 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params Remove
 
 	uc.EventDispatcher.DispatchBatch(charity.Events)
 
-
 	return nil
 }
