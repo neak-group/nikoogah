@@ -5,6 +5,7 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/charity/entity"
+	"github.com/neak-group/nikoogah/internal/app/rally/charity/repository"
 	"github.com/neak-group/nikoogah/internal/core/domain/events"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 )
@@ -12,12 +13,12 @@ import (
 type UpdateCharityHandlerFxParams struct {
 	app.HandlerParams
 
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 type UpdateCharityHandler struct {
 	app.BaseHandler
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 func init() {

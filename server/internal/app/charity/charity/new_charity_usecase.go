@@ -5,19 +5,21 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type RegisterCharityUseCase struct {
 	app.BaseUseCase
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 type RegisterCharityUCParams struct {
 	app.UseCaseParams
 
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
@@ -34,21 +36,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideRegisterCharityUC)
 }
 
-type RegisterCharityParams struct {
-	Name          string
-	Phone         string
-	CityPhoneCode string
-	Email         string
-	Province      string
-	City          string
-	Address       string
-	PostalCode    string
-	NationalID    string
-	EconomicID    string
-	CEO           string
-}
-
-func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCharityParams) (uuid.UUID, error) {
+func (uc RegisterCharityUseCase) Execute(ctx context.Context, params dto.RegisterCharityParams) (uuid.UUID, error) {
 	//TODO: fix aggregate transactions
 
 	charity, err := entity.NewCharity(params.Name)
@@ -90,7 +78,6 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params RegisterCha
 
 	//TODO: fire event charity created
 	uc.EventDispatcher.DispatchBatch(charity.Events)
-
 
 	return charityID, nil
 }

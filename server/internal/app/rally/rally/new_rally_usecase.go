@@ -8,19 +8,20 @@ import (
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/shopspring/decimal"
 )
 
 type NewRallyUseCase struct {
 	app.BaseUseCase
 
-	repo RallyRepository
+	repo repository.RallyRepository
 }
 
 type NewRallyUCParams struct {
 	app.UseCaseParams
 
-	Repo RallyRepository
+	Repo repository.RallyRepository
 }
 
 func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {

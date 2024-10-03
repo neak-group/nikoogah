@@ -1,4 +1,4 @@
-package charity
+package repository
 
 import "github.com/neak-group/nikoogah/internal/app/rally/charity/entity"
 

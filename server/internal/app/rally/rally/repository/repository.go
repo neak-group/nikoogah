@@ -1,4 +1,4 @@
-package rally
+package repository
 
 import (
 	"github.com/google/uuid"

@@ -3,20 +3,21 @@ package charity
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 )
 
 type FetchCharityUseCase struct {
 	app.BaseUseCase
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 type FetchCharityUCParams struct {
 	app.UseCaseParams
 
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 func ProvideFetchCharityUC(params FetchCharityUCParams) *FetchCharityUseCase {
@@ -33,11 +34,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideFetchCharityUC)
 }
 
-type FetchCharityParams struct {
-	CharityID uuid.UUID
-}
-
-func (uc FetchCharityUseCase) Execute(ctx context.Context, params FetchCharityParams) (*entity.Charity, error) {
+func (uc FetchCharityUseCase) Execute(ctx context.Context, params dto.FetchCharityParams) (*entity.Charity, error) {
 	charity, err := uc.repo.FetchCharity(params.CharityID)
 	if err != nil {
 		return nil, err

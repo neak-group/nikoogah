@@ -5,16 +5,17 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 )
 
 type GetParticipantsUseCase struct {
 	app.BaseUseCase
-	repo RallyRepository
+	repo repository.RallyRepository
 }
 
 type GetParticipantsUCParams struct {
 	app.UseCaseParams
-	Repo RallyRepository
+	Repo repository.RallyRepository
 }
 
 func ProvideGetParticipantsUC(params GetParticipantsUCParams) *GetParticipantsUseCase {

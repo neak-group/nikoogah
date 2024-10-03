@@ -5,18 +5,20 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 )
 
 type ModifyCharityUseCase struct {
 	app.BaseUseCase
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 type ModifyCharityUCParams struct {
 	app.UseCaseParams
 
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 func ProvideModifyCharityUC(params ModifyCharityUCParams) *ModifyCharityUseCase {
@@ -33,19 +35,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideModifyCharityUC)
 }
 
-type ModifyCharityParams struct {
-	ID            uuid.UUID
-	Name          string
-	Phone         string
-	CityPhoneCode string
-	Email         string
-	Province      string
-	City          string
-	Address       string
-	PostalCode    string
-}
-
-func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharityParams) (uuid.UUID, error) {
+func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCharityParams) (uuid.UUID, error) {
 	charity, err := uc.repo.FetchCharity(params.ID)
 	if err != nil {
 		return uuid.Nil, err
@@ -77,7 +67,6 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params ModifyCharity
 
 	//TODO: fire event charity created
 	uc.EventDispatcher.DispatchBatch(charity.Events)
-
 
 	return charityID, nil
 }

@@ -4,21 +4,22 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type AddRepresentativeUseCase struct {
 	app.BaseUseCase
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 type AddRepresentativeUCParams struct {
 	app.UseCaseParams
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 func ProvideAddRepresentativeUC(params AddRepresentativeUCParams) *AddRepresentativeUseCase {
@@ -35,12 +36,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideAddRepresentativeUC)
 }
 
-type AddRepresentativeParams struct {
-	CharityID uuid.UUID
-	UserID    uuid.UUID
-}
-
-func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params AddRepresentativeParams) error {
+func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params dto.AddRepresentativeParams) error {
 	charity, err := uc.repo.FetchCharity(params.CharityID)
 	if err != nil {
 		return err
@@ -82,7 +78,6 @@ func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params AddRepres
 	}
 
 	uc.EventDispatcher.DispatchBatch(charity.Events)
-
 
 	return nil
 }

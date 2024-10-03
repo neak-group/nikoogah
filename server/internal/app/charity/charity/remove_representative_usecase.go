@@ -4,22 +4,23 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type RemoveRepresentativeUseCase struct {
 	app.BaseUseCase
-	repo CharityRepository
+	repo repository.CharityRepository
 }
 
 type RemoveRepresentativeUCParams struct {
 	app.UseCaseParams
 
-	Repo CharityRepository
+	Repo repository.CharityRepository
 }
 
 func ProvideRemoveRepresentativeUC(params RemoveRepresentativeUCParams) *RemoveRepresentativeUseCase {
@@ -36,12 +37,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideRemoveRepresentativeUC)
 }
 
-type RemoveRepresentativeParams struct {
-	CharityID uuid.UUID
-	UserID    uuid.UUID
-}
-
-func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params RemoveRepresentativeParams) error {
+func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.RemoveRepresentativeParams) error {
 	charity, err := uc.repo.FetchCharity(params.CharityID)
 	if err != nil {
 		return err
