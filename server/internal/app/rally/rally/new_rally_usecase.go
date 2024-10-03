@@ -3,13 +3,12 @@ package rally
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
-	"github.com/shopspring/decimal"
 )
 
 type NewRallyUseCase struct {
@@ -38,20 +37,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideNewRallyUC)
 }
 
-type NewRallyParams struct {
-	CharityID   uuid.UUID
-	Title       string
-	Description string
-	EndDate     time.Time
-
-	NeedsFunding bool
-	FundAmount   decimal.Decimal
-
-	NeedsHumanParticipation bool
-	ApplicantCap            int
-}
-
-func (uc *NewRallyUseCase) Execute(ctx context.Context, params NewRallyParams) (uuid.UUID, error) {
+func (uc *NewRallyUseCase) Execute(ctx context.Context, params dto.NewRallyParams) (uuid.UUID, error) {
 	max, err := uc.repo.FetchCharityRallyLimit(params.CharityID)
 	if err != nil {
 		return uuid.Nil, err

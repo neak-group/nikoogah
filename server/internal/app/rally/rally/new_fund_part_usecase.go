@@ -3,8 +3,8 @@ package rally
 import (
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/shopspring/decimal"
 )
@@ -34,14 +34,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideNewFundParticipationUC)
 }
 
-type NewFundParticipationParams struct {
-	RallyID        uuid.UUID
-	VolunteerID    uuid.UUID
-	VolunteerPhone string
-	Amount         decimal.Decimal
-}
-
-func (uc *NewFundParticipationUseCase) Execute(params NewFundParticipationParams) error {
+func (uc *NewFundParticipationUseCase) Execute(params dto.NewFundParticipationParams) error {
 	rally, err := uc.repo.FetchRally(params.RallyID)
 	if err != nil {
 		return err

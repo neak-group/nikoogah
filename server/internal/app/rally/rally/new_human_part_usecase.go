@@ -3,8 +3,8 @@ package rally
 import (
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 )
@@ -34,15 +34,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideNewHumanParticipationUC)
 }
 
-type NewHumanParticipationParams struct {
-	RallyID         uuid.UUID
-	VolunteerID     uuid.UUID
-	VolunteerPhone  string
-	VolunteerEmail  string
-	VolunteerResume string
-}
-
-func (uc *NewHumanParticipationUseCase) Execute(params NewHumanParticipationParams) error {
+func (uc *NewHumanParticipationUseCase) Execute(params dto.NewHumanParticipationParams) error {
 	rally, err := uc.repo.FetchRally(params.RallyID)
 	if err != nil {
 		return err

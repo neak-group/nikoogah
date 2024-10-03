@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
+	"github.com/neak-group/nikoogah/internal/app/charity/charitytier/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charitytier/entity"
 )
 
@@ -32,12 +33,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideAddCharityTierUC)
 }
 
-type AddCharityTierParams struct {
-	Name                string
-	RepresentativeLimit int
-}
-
-func (uc AddCharityTierUseCase) Execute(ctx context.Context, params AddCharityTierParams) (uuid.UUID, error) {
+func (uc AddCharityTierUseCase) Execute(ctx context.Context, params dto.AddCharityTierParams) (uuid.UUID, error) {
 	ct := entity.NewCharityTier(params.Name, params.RepresentativeLimit)
 
 	err := uc.repo.SaveCharityTier(ct)
