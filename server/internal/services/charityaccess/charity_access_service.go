@@ -1,6 +1,7 @@
 package charityaccess
 
 type charityAccessServiceImpl struct {
+	
 }
 
 func (c *charityAccessServiceImpl) CanViewParticipation() (bool, error) {
