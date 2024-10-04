@@ -11,8 +11,8 @@ func RegisterUseCaseProvider(provider interface{}) {
 		return
 	}
 
-	if providers == nil {
-		providers = append(providers, provider)
+	if useCaseProviders == nil {
+		useCaseProviders = append(useCaseProviders, provider)
 	}
 }
 

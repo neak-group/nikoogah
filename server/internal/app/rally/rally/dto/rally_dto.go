@@ -20,7 +20,6 @@ type NewRallyParams struct {
 	ApplicantCap            int
 }
 
-
 type NewHumanParticipationParams struct {
 	RallyID         uuid.UUID
 	VolunteerID     uuid.UUID
@@ -38,4 +37,14 @@ type NewFundParticipationParams struct {
 
 type PayRallyFeeParams struct {
 	RallyID uuid.UUID
+}
+
+type HumanParticipationDTO struct {
+	VolunteerID         uuid.UUID
+	VolunteerName       string
+	VolunteerReputation float32
+	Phone               string
+	Email               string
+	ResumeFile          string
+	Status              string
 }

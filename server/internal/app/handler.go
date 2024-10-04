@@ -11,15 +11,14 @@ func RegisterHandlerProvider(provider interface{}) {
 		return
 	}
 
-	if eventHandlers == nil {
-		eventHandlers = append(eventHandlers, fx.Annotate(
+	if eventHandlerProviders == nil {
+		eventHandlerProviders = append(eventHandlerProviders, fx.Annotate(
 			provider,
 			fx.As(new(eventbus.EventHandler)),
 			fx.ParamTags(`group:"event-handlers"`),
 		))
 	}
 }
-
 
 type HandlerParams struct {
 	Logger *zap.Logger

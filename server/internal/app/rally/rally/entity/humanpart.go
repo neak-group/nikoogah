@@ -17,4 +17,3 @@ type HumanParticipation struct {
 	ResumeFile  string
 	Status      ParticipationStatus
 }
-
