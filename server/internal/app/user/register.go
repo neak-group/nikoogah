@@ -53,7 +53,7 @@ func (is *IdentityService) RegisterUser(ctx context.Context, input dto.UserInput
 	}
 
 	if user == nil {
-		user, err := entity.NewUser(input.FirstName, input.LastName, input.PhoneNumber, input.NationalCode)
+		user, err = entity.NewUser(input.FirstName, input.LastName, input.PhoneNumber, input.NationalCode)
 		if err != nil {
 			return err
 		}
