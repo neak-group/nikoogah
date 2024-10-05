@@ -12,19 +12,19 @@ import (
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
-type RemoveRepresentativeUseCase struct {
+type CheckRepresentativeAccessUseCase struct {
 	app.BaseUseCase
 	repo repository.CharityRepository
 }
 
-type RemoveRepresentativeUCParams struct {
+type CheckRepresentativeAccessUCParams struct {
 	app.UseCaseParams
 
 	Repo repository.CharityRepository
 }
 
-func ProvideRemoveRepresentativeUC(params RemoveRepresentativeUCParams) *RemoveRepresentativeUseCase {
-	return &RemoveRepresentativeUseCase{
+func ProvideCheckRepresentativeAccessUC(params CheckRepresentativeAccessUCParams) *CheckRepresentativeAccessUseCase {
+	return &CheckRepresentativeAccessUseCase{
 		repo: params.Repo,
 		BaseUseCase: app.BaseUseCase{
 			Logger:          params.Logger,
@@ -34,10 +34,10 @@ func ProvideRemoveRepresentativeUC(params RemoveRepresentativeUCParams) *RemoveR
 }
 
 func init() {
-	app.RegisterUseCaseProvider(ProvideRemoveRepresentativeUC)
+	app.RegisterUseCaseProvider(ProvideCheckRepresentativeAccessUC)
 }
 
-func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.RemoveRepresentativeParams) error {
+func (uc CheckRepresentativeAccessUseCase) Execute(ctx context.Context, params dto.CheckRepresentativeAccessParams) error {
 	charity, err := uc.repo.FetchCharity(params.CharityID)
 	if err != nil {
 		return err
@@ -65,11 +65,6 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.Re
 
 	if !repExists {
 		return fmt.Errorf("representative does not exist")
-	}
-
-	err = charity.RemoveRepresentative(params.UserID)
-	if err != nil {
-		return err
 	}
 
 	_, err = uc.repo.SaveCharity(charity)

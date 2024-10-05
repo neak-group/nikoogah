@@ -21,6 +21,6 @@ func ProvideCharityAccessService(params CharityAccessServiceParams) CharityAcces
 	}
 	
 	return CharityAccessServiceResult{
-		
+		Rally: impl,
 	}
 }

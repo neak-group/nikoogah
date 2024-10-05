@@ -110,9 +110,9 @@ func (c *Charity) AddRepresentative(userID uuid.UUID, role RepresentativeRole) e
 	return nil
 }
 
-func (c *Charity) RemoveRepresentative(userID uuid.UUID, role RepresentativeRole) error {
+func (c *Charity) RemoveRepresentative(userID uuid.UUID) error {
 	for i, r := range c.Representatives {
-		if r.UserID == userID{
+		if r.UserID == userID {
 			c.Representatives = append(c.Representatives[:i], c.Representatives[i+1:]...)
 			break
 		}
