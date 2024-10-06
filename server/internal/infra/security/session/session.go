@@ -34,7 +34,7 @@ type Session struct {
 
 type SessionData struct {
 	UserID   string `json:"-"`
-	UserName string
+	FullName string
 	DeviceInfo
 	Exp       time.Time
 	LastLogin time.Time
@@ -47,7 +47,7 @@ type DeviceInfo struct {
 
 const sessionKeyPrefix string = "sess"
 
-func (ss *SessionService) NewSession(ctx context.Context, userID string, userName string, deviceInfo DeviceInfo) (sessionID *Session, err error) {
+func (ss *SessionService) NewSession(ctx context.Context, userID string, fullName string, deviceInfo DeviceInfo) (sessionID *Session, err error) {
 	rc, err := ss.keyStore.KSClient(ctx)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (ss *SessionService) NewSession(ctx context.Context, userID string, userNam
 	loginTime := time.Now()
 	_, err = rc.HSet(ctx, sessionKey, map[string]interface{}{
 		"UserID":    userID,
-		"UserName":  userName,
+		"FullName":  fullName,
 		"UserAgent": deviceInfo.UserAgent,
 		"IPAddress": deviceInfo.IPAddress,
 		"Exp":       expiry.Format(time.RFC3339),
@@ -83,7 +83,7 @@ func (ss *SessionService) NewSession(ctx context.Context, userID string, userNam
 		SessionID: token,
 		SessionData: SessionData{
 			UserID:     userID,
-			UserName:   userName,
+			FullName:   fullName,
 			DeviceInfo: deviceInfo,
 			Exp:        expiry,
 			LastLogin:  loginTime,
@@ -126,7 +126,7 @@ func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string)
 		SessionID: sessionID,
 		SessionData: SessionData{
 			UserID:   userID,
-			UserName: data["UserName"],
+			FullName: data["UserName"],
 			DeviceInfo: DeviceInfo{
 				UserAgent: data["UserAgent"],
 				IPAddress: data["IPAddress"],
