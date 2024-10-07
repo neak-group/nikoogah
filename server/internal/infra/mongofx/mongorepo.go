@@ -25,18 +25,18 @@ var Port = "COL_DB_PORT"
 var Database = "COL_DB_DATABASE"
 
 type MongoDBConn interface {
-	GetConn(ctx context.Context) (*mongo.Client, error)
+	GetDB(ctx context.Context) (*mongo.Database, error)
 }
 
 type dbConn struct {
 	MongoClient *mongo.Client
 }
 
-func (db *dbConn) GetConn(ctx context.Context) (*mongo.Client, error) {
+func (db *dbConn) GetDB(ctx context.Context) (*mongo.Database, error) {
 	if db.MongoClient == nil {
 		return nil, fmt.Errorf("no database connection found")
 	}
-	return db.MongoClient, nil
+	return db.MongoClient.Database("db"), nil
 }
 
 func ProvideMongoDBConfig(lc fx.Lifecycle, logger *zap.Logger) MongoConfig {
