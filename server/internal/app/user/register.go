@@ -9,23 +9,24 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
 )
 
-func (is *IdentityService) RegisterUser(ctx context.Context, input dto.UserInput) error {
+func (is *IdentityService) RegisterUser(ctx context.Context, input dto.UserInput) (otpToken string,err error) {
 	var user *entity.User
 
-	user, err := is.userRepo.FetchUserByPhone(ctx, input.PhoneNumber)
+	user, err = is.userRepo.FetchUserByPhone(ctx, input.PhoneNumber)
 	if err != nil {
-		return err
+		// TODO[Clean]: empty token to defined type
+		return "", err
 	}
 
 	if user == nil {
 		user, err = entity.NewUser(input.FirstName, input.LastName, input.PhoneNumber, input.NationalCode)
 		if err != nil {
-			return err
+			return "",err
 		}
 
 	} else {
 		if user.UserState != entity.UserPending {
-			return fmt.Errorf("user already registered")
+			return "",fmt.Errorf("user already registered")
 		}
 
 		user.FirstName = input.FirstName
@@ -36,16 +37,16 @@ func (is *IdentityService) RegisterUser(ctx context.Context, input dto.UserInput
 	}
 	err = is.userRepo.SaveUser(ctx, user)
 	if err != nil {
-		return err
+		return "",err
 	}
 
 	//TODO[cleanup]: schedule delete after some pending duration
 
 	if err = is.otpService.SendOTP(user.PhoneNumber); err != nil {
-		return err
+		return "",err
 	}
 
-	return nil
+	return "",nil
 
 }
 
