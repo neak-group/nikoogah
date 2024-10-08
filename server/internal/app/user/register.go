@@ -55,6 +55,10 @@ func (is *IdentityService) VerifyRegistration(ctx context.Context, input dto.OTP
 		return err
 	}
 
+	if user == nil {
+		return fmt.Errorf("user not found")
+	}
+
 	//TODO[Security]: Verify OTP with phone number too
 	valid, err := is.otpService.VerifyOTP(input.OTPCode, input.OTPToken)
 	if err != nil {

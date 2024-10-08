@@ -46,5 +46,7 @@ func (is *IdentityService) VerifyLogin(ctx context.Context, input dto.OTPInput) 
 		return fmt.Errorf("invalid otp token")
 	}
 
+	//TODO[security]: Record login attempt
+
 	return nil
 }

@@ -23,6 +23,7 @@ type IdentityServiceParams struct {
 	Logger          *zap.Logger
 	EventDispatcher eventdispatcher.EventDispatcher
 	OTPService      services.OTPService
+	SessionService services.SessionService
 }
 
 func ProvideIdentityService(params IdentityServiceParams) *IdentityService {

@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/neak-group/nikoogah/internal/app/user/entity"
+	"github.com/neak-group/nikoogah/internal/app/user/services"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
 	"go.uber.org/fx"
 )
@@ -21,33 +23,15 @@ type SessionServiceParams struct {
 	Keystore keystorefx.KeyStoreConn
 }
 
-func ProvideSessionService(p SessionServiceParams) *SessionService {
+func ProvideSessionService(p SessionServiceParams) services.SessionService {
 	return &SessionService{
 		keyStore: p.Keystore,
 	}
 }
 
-type Session struct {
-	SessionID string
-	SessionData
-}
-
-type SessionData struct {
-	UserID   string `json:"-"`
-	FullName string
-	DeviceInfo
-	Exp       time.Time
-	LastLogin time.Time
-}
-
-type DeviceInfo struct {
-	UserAgent string
-	IPAddress string
-}
-
 const sessionKeyPrefix string = "sess"
 
-func (ss *SessionService) NewSession(ctx context.Context, userID string, fullName string, deviceInfo DeviceInfo) (sessionID *Session, err error) {
+func (ss *SessionService) NewSession(ctx context.Context, userID string, fullName string, deviceInfo entity.DeviceInfo) (sessionID *entity.Session, err error) {
 	rc, err := ss.keyStore.KSClient(ctx)
 	if err != nil {
 		return nil, err
@@ -79,9 +63,9 @@ func (ss *SessionService) NewSession(ctx context.Context, userID string, fullNam
 		return nil, err
 	}
 
-	return &Session{
+	return &entity.Session{
 		SessionID: token,
-		SessionData: SessionData{
+		SessionData: entity.SessionData{
 			UserID:     userID,
 			FullName:   fullName,
 			DeviceInfo: deviceInfo,
@@ -91,7 +75,7 @@ func (ss *SessionService) NewSession(ctx context.Context, userID string, fullNam
 	}, nil
 }
 
-func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string) (session *Session, err error) {
+func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string) (session *entity.Session, err error) {
 	rc, err := ss.keyStore.KSClient(ctx)
 	if err != nil {
 		return nil, err
@@ -122,12 +106,12 @@ func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string)
 		return nil, fmt.Errorf("user id is not valid")
 	}
 
-	session = &Session{
+	session = &entity.Session{
 		SessionID: sessionID,
-		SessionData: SessionData{
+		SessionData: entity.SessionData{
 			UserID:   userID,
 			FullName: data["UserName"],
-			DeviceInfo: DeviceInfo{
+			DeviceInfo: entity.DeviceInfo{
 				UserAgent: data["UserAgent"],
 				IPAddress: data["IPAddress"],
 			},
