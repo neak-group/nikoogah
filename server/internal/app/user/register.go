@@ -49,30 +49,35 @@ func (is *IdentityService) RegisterUser(ctx context.Context, input dto.UserInput
 
 }
 
-func (is *IdentityService) VerifyRegistration(ctx context.Context, input dto.OTPInput) error {
+func (is *IdentityService) VerifyRegistration(ctx context.Context, input dto.OTPInput) (*dto.UserData, error) {
 	user, err := is.userRepo.FetchUserByPhone(ctx, input.PhoneNumber)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if user == nil {
-		return fmt.Errorf("user not found")
+		return nil, fmt.Errorf("user not found")
 	}
 
 	//TODO[Security]: Verify OTP with phone number too
 	valid, err := is.otpService.VerifyOTP(input.OTPCode, input.OTPToken)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if !valid {
-		return fmt.Errorf("invalid otp token")
+		return nil, fmt.Errorf("invalid otp token")
 	}
 
 	err = is.userRepo.ChangeUserState(ctx, user.ID, entity.UserActive)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &dto.UserData{
+		ID:          user.ID,
+		FullName:    fmt.Sprintf(user.FirstName, " ", user.LastName),
+		PhoneNumber: user.PhoneNumber,
+		UserState:   user.UserState,
+	}, nil
 }
