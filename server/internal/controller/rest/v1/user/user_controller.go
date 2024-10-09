@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/internal/app/user"
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
-	"github.com/neak-group/nikoogah/internal/controller/rest/v1/user/model"
 	"github.com/neak-group/nikoogah/internal/infra/security/session"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -42,18 +41,40 @@ func NewUserController(params UserHandlerParams) UserHandler {
 func (uc *UserHandler) RegisterUser(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	req := new(model.UserInput)
+	req := new(dto.UserInput)
 	err := c.Bind(req)
 	if err != nil {
 		return
 	}
 
-	token, err := uc.identityService.RegisterUser(ctx, dto.UserInput{
-		FirstName:    req.FirstName,
-		LastName:     req.LastName,
-		PhoneNumber:  req.PhoneNumber,
-		NationalCode: req.NationalCode,
+	token, err := uc.identityService.RegisterUser(ctx, req)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	if token == "" {
+		c.Error(fmt.Errorf("internal error: invalid token generated"))
+		return
+	}
+
+	c.SetCookie(OTPTokenKey, token, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
+
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "otp token sent",
 	})
+}
+
+func (uc *UserHandler) Login(c *gin.Context) {
+	ctx := c.Request.Context()
+
+	req := new(dto.LoginInput)
+	err := c.Bind(req)
+	if err != nil {
+		return
+	}
+
+	token, err := uc.identityService.Login(ctx, req)
 	if err != nil {
 		c.Error(err)
 		return
@@ -74,7 +95,7 @@ func (uc *UserHandler) RegisterUser(c *gin.Context) {
 func (uc *UserHandler) VerifyRegistration(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	req := new(model.OTPInput)
+	req := new(dto.OTPInput)
 	err := c.Bind(req)
 	if err != nil {
 		return
@@ -85,11 +106,9 @@ func (uc *UserHandler) VerifyRegistration(c *gin.Context) {
 		return
 	}
 
-	sessionData, err := uc.identityService.VerifyRegistration(ctx, dto.OTPInput{
-		PhoneNumber: req.PhoneNumber,
-		OTPCode:     req.OTPCode,
-		OTPToken:    otpToken,
-	})
+	req.OTPToken = otpToken
+
+	sessionData, err := uc.identityService.Verify(ctx, req)
 
 	if err != nil {
 		c.Error(err)
@@ -105,22 +124,14 @@ func (uc *UserHandler) VerifyRegistration(c *gin.Context) {
 		return
 	}
 
-	if token == "" {
+	if token.SessionID == "" {
 		c.Error(fmt.Errorf("internal error: invalid token generated"))
 		return
 	}
 
-	c.SetCookie("otp-token", token, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
+	c.SetCookie("otp-token", token.SessionID, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"msg": "otp token sent",
 	})
-}
-
-func (uc *UserHandler) Login(c *gin.Context) {
-
-}
-
-func (uc *UserHandler) VerifyLogin(c *gin.Context) {
-
 }

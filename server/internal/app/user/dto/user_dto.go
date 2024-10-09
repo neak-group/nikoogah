@@ -7,25 +7,25 @@ import (
 )
 
 type UserInput struct {
-	FirstName    string
-	LastName     string
-	PhoneNumber  string
-	NationalCode string
+	FirstName    string `json:"firstName"`
+	LastName     string `json:"lastName"`
+	PhoneNumber  string `json:"phoneNumber"`
+	NationalCode string `json:"nationalCode"`
 }
 
 type OTPInput struct {
-	PhoneNumber string
-	OTPCode     string
+	PhoneNumber string `json:"phoneNumber"`
+	OTPCode     string `json:"otpCode"`
 	OTPToken    string
 }
 
 type LoginInput struct {
-	PhoneNumber string
+	PhoneNumber string `json:"phoneNumber"`
 }
 
 type UserData struct {
-	ID          uuid.UUID
-	FullName    string
-	PhoneNumber coreobjects.PhoneNumber
-	UserState   entity.UserState
+	ID          uuid.UUID               `json:"id"`
+	FullName    string                  `json:"fullName"`
+	PhoneNumber coreobjects.PhoneNumber `json:"phoneNumber"`
+	UserState   entity.UserState        `json:"userState"`
 }
