@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/internal/app/user"
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
+	v1 "github.com/neak-group/nikoogah/internal/controller/rest/v1"
 	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -36,6 +37,10 @@ func NewUserController(params UserHandlerParams) UserHandler {
 		identityService: params.IdentityService,
 		logger:          params.Logger,
 	}
+}
+
+func init(){
+	v1.RegisterControllerProvider(NewUserController)
 }
 
 func (uc *UserHandler) RegisterUser(c *gin.Context) {
