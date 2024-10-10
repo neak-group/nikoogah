@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/internal/app/user"
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
-	"github.com/neak-group/nikoogah/internal/infra/security/session"
+	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

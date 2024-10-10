@@ -10,7 +10,6 @@ import (
 	"github.com/neak-group/nikoogah/internal/infra/dbfx"
 	"github.com/neak-group/nikoogah/internal/infra/httpserver"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
-	"github.com/neak-group/nikoogah/internal/infra/security"
 	"github.com/neak-group/nikoogah/internal/infra/telemetry"
 	"github.com/neak-group/nikoogah/internal/repository"
 	"github.com/spf13/viper"
@@ -37,7 +36,6 @@ func Boot() (*fx.App, error) {
 		//InitRedis
 		keystorefx.Module,
 		//InitStorage
-		security.Module,
 		//Init platform services
 		platform.Module,
 		//Init Repositories
