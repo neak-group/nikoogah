@@ -11,3 +11,4 @@ func RegisterControllerProvider(provider interface{}) {
 		controllerProviders = append(controllerProviders, provider)
 	}
 }
+
