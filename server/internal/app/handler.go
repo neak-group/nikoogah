@@ -15,7 +15,7 @@ func RegisterHandlerProvider(provider interface{}) {
 		eventHandlerProviders = append(eventHandlerProviders, fx.Annotate(
 			provider,
 			fx.As(new(eventbus.EventHandler)),
-			fx.ParamTags(`group:"event-handlers"`),
+			fx.ResultTags(`group:"event-handlers"`),
 		))
 	}
 }
