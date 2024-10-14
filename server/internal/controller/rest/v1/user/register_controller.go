@@ -9,7 +9,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
 )
 
-func (uc *UserHandler) RegisterUser(c *gin.Context) {
+func (uc *UserController) RegisterUser(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	req := new(dto.UserInput)

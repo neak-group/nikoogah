@@ -10,7 +10,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
 )
 
-func (uc *UserHandler) VerifyPhone(c *gin.Context) {
+func (uc *UserController) VerifyPhone(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	req := new(dto.OTPInput)

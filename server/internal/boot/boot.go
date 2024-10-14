@@ -43,6 +43,7 @@ func Boot() (*fx.App, error) {
 		app.GetModule(),
 		controller.GetModule(),
 		fx.Provide(
+			
 			httpserver.NewHTTPServer,
 		),
 		// Start HTTP Server

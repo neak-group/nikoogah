@@ -10,14 +10,14 @@ import (
 
 const OTPTokenKey = "otp-token"
 
-type UserHandler struct {
+type UserController struct {
 	identityService *user.IdentityService
 	sessionService  *session.SessionService
 
 	logger *zap.Logger
 }
 
-type UserHandlerParams struct {
+type UserControllerParams struct {
 	fx.In
 
 	IdentityService *user.IdentityService
@@ -26,8 +26,8 @@ type UserHandlerParams struct {
 	Logger *zap.Logger
 }
 
-func NewUserController(params UserHandlerParams) UserHandler {
-	return UserHandler{
+func NewUserController(params UserControllerParams) UserController {
+	return UserController{
 		identityService: params.IdentityService,
 		logger:          params.Logger,
 	}
