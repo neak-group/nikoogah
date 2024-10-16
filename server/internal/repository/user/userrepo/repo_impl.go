@@ -1,8 +1,9 @@
 package userrepo
 
 import (
-	"github.com/neak-group/nikoogah/internal/app/user/repository"
+	userRepo "github.com/neak-group/nikoogah/internal/app/user/repository"
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"
+	"github.com/neak-group/nikoogah/internal/repository"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -14,11 +15,15 @@ type MongoRepositoryImplParams struct {
 	Logger      *zap.Logger
 }
 
-func ProvideMongoRepositoryImpl(params MongoRepositoryImplParams) repository.UserRepository {
+func ProvideMongoRepositoryImpl(params MongoRepositoryImplParams) userRepo.UserRepository {
 	return &userMongoRepository{
 		mongoClient: params.MongoClient,
-		logger: params.Logger,
+		logger:      params.Logger,
 
 		usersCollection: "base_user",
 	}
+}
+
+func init() {
+	repository.RegisterRepositoryProvider(ProvideMongoRepositoryImpl)
 }
