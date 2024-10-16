@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/joho/godotenv"
+	"github.com/neak-group/nikoogah/api"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/controller"
 	platform "github.com/neak-group/nikoogah/internal/core/interface"
@@ -43,7 +44,7 @@ func Boot() (*fx.App, error) {
 		app.GetModule(),
 		controller.GetModule(),
 		fx.Provide(
-			
+			api.ProvideHTTPRouter,
 			httpserver.NewHTTPServer,
 		),
 		// Start HTTP Server
