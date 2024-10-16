@@ -8,14 +8,14 @@ import (
 
 type UserControllerGroup struct {
 	fx.In
-	
-	controller user.UserController
+
+	Controller user.UserController
 }
 
 func AddUserRoutes(parent *gin.RouterGroup, controllers UserControllerGroup) {
 	routerGroup := parent.Group("/user")
 
-	routerGroup.POST("/sign-up", controllers.controller.RegisterUser)
-	routerGroup.POST("/login", controllers.controller.Login)
-	routerGroup.POST("/otp", controllers.controller.VerifyPhone)
+	routerGroup.POST("/sign-up", controllers.Controller.RegisterUser)
+	routerGroup.POST("/login", controllers.Controller.Login)
+	routerGroup.POST("/otp", controllers.Controller.VerifyPhone)
 }

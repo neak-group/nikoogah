@@ -1,19 +1,10 @@
 package controller
 
-import "go.uber.org/fx"
+import (
+	"github.com/neak-group/nikoogah/internal/controller/rest"
+	"go.uber.org/fx"
+)
 
 func GetModule() fx.Option {
-	return fx.Module("controller", fx.Provide(providers...))
-}
-
-var providers []interface{}
-
-func RegisterControllerProvider(provider interface{}) {
-	if provider == nil {
-		return
-	}
-
-	if providers == nil {
-		providers = append(providers, provider)
-	}
+	return fx.Module("controller", rest.GetModule())
 }

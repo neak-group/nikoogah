@@ -12,3 +12,6 @@ func RegisterControllerProvider(provider interface{}) {
 	}
 }
 
+func ProvideV1RestControllers() []any{
+	return controllerProviders
+}
