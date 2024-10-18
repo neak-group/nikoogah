@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/neak-group/nikoogah/internal/core/service/security/otp"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
 	"go.uber.org/fx"
 )
@@ -19,7 +20,7 @@ type OTPGeneratorParams struct {
 	KeyStore keystorefx.KeyStoreConn
 }
 
-func NewOTPGenerator(p OTPGeneratorParams) *OTPGenerator {
+func NewOTPGenerator(p OTPGeneratorParams) otp.OTPService {
 	return &OTPGenerator{
 		keyStore: p.KeyStore,
 	}
