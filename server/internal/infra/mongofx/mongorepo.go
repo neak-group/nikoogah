@@ -6,7 +6,6 @@ import (
 
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
 
@@ -15,31 +14,29 @@ type MongoConfig struct {
 	Password string
 	Host     string
 	Port     string
-	Database string
 }
 
-var Username = "COL_DB_USER_NAME"
-var Password = "COL_DB_PASS"
-var Host = "COL_DB_HOST"
-var Port = "COL_DB_PORT"
-var Database = "COL_DB_DATABASE"
+var Username = "col_db_user_name"
+var Password = "col_db_pass"
+var Host = "col_db_host"
+var Port = "col_db_port"
 
 type MongoDBConn interface {
-	GetDB(ctx context.Context) (*mongo.Database, error)
+	GetDB(ctx context.Context, dbName string) (*mongo.Database, error)
 }
 
 type dbConn struct {
 	MongoClient *mongo.Client
 }
 
-func (db *dbConn) GetDB(ctx context.Context) (*mongo.Database, error) {
+func (db *dbConn) GetDB(ctx context.Context, dbName string) (*mongo.Database, error) {
 	if db.MongoClient == nil {
 		return nil, fmt.Errorf("no database connection found")
 	}
-	return db.MongoClient.Database("db"), nil
+	return db.MongoClient.Database(dbName), nil
 }
 
-func ProvideMongoDBConfig(lc fx.Lifecycle, logger *zap.Logger) MongoConfig {
+func ProvideMongoDBConfig(logger *zap.Logger) MongoConfig {
 	cfg := MongoConfig{}
 
 	cfg.Username = viper.GetString(Username)
@@ -60,11 +57,6 @@ func ProvideMongoDBConfig(lc fx.Lifecycle, logger *zap.Logger) MongoConfig {
 	cfg.Port = viper.GetString(Port)
 	if cfg.Port == "" {
 		logger.Panic("%v env must be specified: port", zap.String("env", Port))
-	}
-
-	cfg.Database = viper.GetString(Database)
-	if cfg.Database == "" {
-		logger.Panic("%v env must be specified: database", zap.String("env", Database))
 	}
 
 	return cfg

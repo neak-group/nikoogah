@@ -12,8 +12,9 @@ func RegisterUseCaseProvider(provider interface{}) {
 	}
 
 	if useCaseProviders == nil {
-		useCaseProviders = append(useCaseProviders, provider)
+		useCaseProviders = make([]interface{}, 0)
 	}
+	useCaseProviders = append(useCaseProviders, provider)
 }
 
 type UseCaseParams struct {

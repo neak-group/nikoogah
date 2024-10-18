@@ -17,12 +17,12 @@ type UserMongoRepository struct {
 	Logger *zap.Logger
 
 	MongoClient     mongofx.MongoDBConn
+	UserDatabase    string
 	UsersCollection string
 }
 
-
 func (repo *UserMongoRepository) FetchUser(ctx context.Context, userID uuid.UUID) (*entity.User, error) {
-	db, err := repo.MongoClient.GetDB(ctx)
+	db, err := repo.MongoClient.GetDB(ctx, repo.UserDatabase)
 	if err != nil {
 		repo.Logger.Error("failed to get MongoDB connection", zap.Error(err))
 		return nil, err
@@ -45,7 +45,7 @@ func (repo *UserMongoRepository) FetchUser(ctx context.Context, userID uuid.UUID
 }
 
 func (repo *UserMongoRepository) FetchUserByPhone(ctx context.Context, phone string) (*entity.User, error) {
-	db, err := repo.MongoClient.GetDB(ctx)
+	db, err := repo.MongoClient.GetDB(ctx, repo.UserDatabase)
 	if err != nil {
 		repo.Logger.Error("failed to get MongoDB connection", zap.Error(err))
 		return nil, err
@@ -68,7 +68,7 @@ func (repo *UserMongoRepository) FetchUserByPhone(ctx context.Context, phone str
 }
 
 func (repo *UserMongoRepository) SaveUser(ctx context.Context, user *entity.User) error {
-	db, err := repo.MongoClient.GetDB(ctx)
+	db, err := repo.MongoClient.GetDB(ctx, repo.UserDatabase)
 	if err != nil {
 		repo.Logger.Error("failed to get MongoDB connection", zap.Error(err))
 		return err
@@ -106,7 +106,7 @@ func (repo *UserMongoRepository) SaveUser(ctx context.Context, user *entity.User
 
 // DeleteUser removes a user by their UUID from MongoDB.
 func (repo *UserMongoRepository) DeleteUser(ctx context.Context, userID uuid.UUID) error {
-	db, err := repo.MongoClient.GetDB(ctx)
+	db, err := repo.MongoClient.GetDB(ctx, repo.UserDatabase)
 	if err != nil {
 		repo.Logger.Error("failed to get MongoDB connection", zap.Error(err))
 		return err
@@ -124,7 +124,7 @@ func (repo *UserMongoRepository) DeleteUser(ctx context.Context, userID uuid.UUI
 }
 
 func (repo *UserMongoRepository) ChangeUserState(ctx context.Context, userID uuid.UUID, newState entity.UserState) error {
-	db, err := repo.MongoClient.GetDB(ctx)
+	db, err := repo.MongoClient.GetDB(ctx, repo.UserDatabase)
 	if err != nil {
 		repo.Logger.Error("failed to get MongoDB connection", zap.Error(err))
 		return err

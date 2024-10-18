@@ -1,19 +1,19 @@
 package repository
 
-import "go.uber.org/fx"
+import (
+	"github.com/neak-group/nikoogah/internal/repository/user"
+	"go.uber.org/fx"
+)
 
 func GetModule() fx.Option {
-	return fx.Module("repository", fx.Provide(providers...))
+	return fx.Module("repository", fx.Provide(ProvideRepositories()...))
 }
 
-var providers []interface{}
 
-func RegisterRepositoryProvider(provider interface{}) {
-	if provider == nil {
-		return
-	}
+func ProvideRepositories() []interface{}{
+	var providers []interface{}
+	
+	providers = append(providers, user.GetRepoProviders()...)
 
-	if providers == nil {
-		providers = append(providers, provider)
-	}
+	return providers
 }

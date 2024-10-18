@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 	"net/url"
-	"os"
 	"strings"
 	"time"
 
+	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/fx"
@@ -39,7 +39,7 @@ func (cfg *MongoConfig) toMongoConnStr() string {
 		connectionString.WriteString(cfg.Port)
 	}
 
-	authSource := os.Getenv("MONGO_AUTH_SOURCE")
+	authSource := viper.GetString("mongo_auth_source")
 
 	if authSource != "" {
 		connectionString.WriteByte('/')

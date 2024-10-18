@@ -6,6 +6,7 @@ func RegisterDomainServiceProvider(provider interface{}) {
 	}
 
 	if domainServiceProviders == nil {
-		domainServiceProviders = append(domainServiceProviders, provider)
+		domainServiceProviders = make([]interface{}, 0)
 	}
+	domainServiceProviders = append(domainServiceProviders, provider)
 }

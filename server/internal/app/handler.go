@@ -12,12 +12,13 @@ func RegisterHandlerProvider(provider interface{}) {
 	}
 
 	if eventHandlerProviders == nil {
-		eventHandlerProviders = append(eventHandlerProviders, fx.Annotate(
-			provider,
-			fx.As(new(eventbus.EventHandler)),
-			fx.ResultTags(`group:"event-handlers"`),
-		))
+		eventHandlerProviders = make([]interface{}, 0)
 	}
+	eventHandlerProviders = append(eventHandlerProviders, fx.Annotate(
+		provider,
+		fx.As(new(eventbus.EventHandler)),
+		fx.ResultTags(`group:"event-handlers"`),
+	))
 }
 
 type HandlerParams struct {
