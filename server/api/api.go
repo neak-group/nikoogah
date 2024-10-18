@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/neak-group/nikoogah/api/auth"
 	v1 "github.com/neak-group/nikoogah/api/v1"
 	"go.uber.org/fx"
 )
@@ -30,7 +31,10 @@ func ProvideHTTPRouter(params HTTPRouterParams) http.Handler {
 
 	apiGroup := e.Group("/api")
 
-	v1.AddV1Routes(apiGroup, params.V1RoutesParams)
+	authenticator := auth.NewAuthenticator(params.SessionService)
+	apiGroup.Use(authenticator.Authenticate())
+
+	v1.AddV1Routes(apiGroup, authenticator, params.V1RoutesParams)
 
 	return e
 }

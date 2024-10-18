@@ -27,6 +27,11 @@ func GetUserIDFromCtx(ctx context.Context) (uuid.UUID, error) {
 	return id, nil
 }
 
+func SetUserIDCtx(ctx context.Context, userID string) context.Context {
+	ctx = context.WithValue(ctx, ContextKeyUserID{}, userID)
+	return ctx
+}
+
 type ContextKeyRequestID struct{}
 
 type ContextKeyUserRole struct{}
