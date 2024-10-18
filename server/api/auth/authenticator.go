@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
 	"github.com/neak-group/nikoogah/utils/contextutils"
+	"go.uber.org/zap"
 )
 
 type Authenticator struct {
@@ -13,10 +14,11 @@ type Authenticator struct {
 	anonymousRoutes map[string][]string
 }
 
-func (r Authenticator) Authenticate() gin.HandlerFunc {
+func (r Authenticator) Authenticate(logger *zap.Logger) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		for _, r := range r.anonymousRoutes[c.FullPath()] {
 			if r == c.Request.Method {
+				logger.Info("route bypassed", zap.String("route", c.FullPath()))
 				c.Next()
 				return
 			}
@@ -28,7 +30,7 @@ func (r Authenticator) Authenticate() gin.HandlerFunc {
 			return
 		}
 
-		authCookie, err := c.Request.Cookie("session-token")
+		authCookie, err := c.Request.Cookie("session-id")
 		if err != nil {
 			c.Error(err)
 			return

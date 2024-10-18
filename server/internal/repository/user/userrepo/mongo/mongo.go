@@ -31,7 +31,7 @@ func (repo *UserMongoRepository) FetchUser(ctx context.Context, userID uuid.UUID
 	collection := db.Collection(repo.UsersCollection)
 
 	var user entity.User
-	err = collection.FindOne(ctx, bson.M{"_id": userID}).Decode(&user)
+	err = collection.FindOne(ctx, bson.M{"_id": userID.String()}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			repo.Logger.Info("user not found", zap.String("userID", userID.String()))
@@ -54,7 +54,7 @@ func (repo *UserMongoRepository) FetchUserByPhone(ctx context.Context, phone str
 	collection := db.Collection(repo.UsersCollection)
 
 	var user entity.User
-	err = collection.FindOne(ctx, bson.M{"phone_number": phone}).Decode(&user)
+	err = collection.FindOne(ctx, bson.D{{Key: "phone_number.phone_number", Value: phone}}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			repo.Logger.Info("user not found by phone", zap.String("phone", phone))
@@ -76,7 +76,7 @@ func (repo *UserMongoRepository) SaveUser(ctx context.Context, user *entity.User
 
 	collection := db.Collection(repo.UsersCollection)
 
-	filter := bson.M{"_id": user.ID}
+	filter := bson.M{"_id": user.ID.String()}
 	update := bson.M{
 		"$set": bson.M{
 			"first_name":        user.FirstName,
@@ -139,7 +139,7 @@ func (repo *UserMongoRepository) ChangeUserState(ctx context.Context, userID uui
 		},
 	}
 
-	_, err = collection.UpdateOne(ctx, bson.M{"_id": userID}, update)
+	_, err = collection.UpdateOne(ctx, bson.M{"_id": userID.String()}, update)
 	if err != nil {
 		repo.Logger.Error("failed to change user state", zap.Error(err))
 		return err

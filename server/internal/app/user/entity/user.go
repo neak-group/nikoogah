@@ -21,7 +21,7 @@ type User struct {
 
 	FirstName       string
 	LastName        string
-	PhoneNumber     coreobjects.PhoneNumber
+	PhoneNumber     coreobjects.PhoneNumber 
 	PhoneVerifiedAt *time.Time
 	NationalCode    string
 	AvatarPath      string

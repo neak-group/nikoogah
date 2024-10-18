@@ -29,6 +29,7 @@ type UserControllerParams struct {
 func NewUserController(params UserControllerParams) UserController {
 	return UserController{
 		identityService: params.IdentityService,
+		sessionService:  params.SessionService,
 		logger:          params.Logger,
 	}
 }

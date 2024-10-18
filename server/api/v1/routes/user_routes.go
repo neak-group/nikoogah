@@ -22,9 +22,9 @@ func AddUserRoutes(parent *gin.RouterGroup, authRouter *auth.Authenticator, cont
 	authRouter.AddAnonymousRoute(http.MethodPost, routerGroup.BasePath()+"/sign-up")
 
 	routerGroup.POST("/login", controllers.Controller.Login)
-	authRouter.AddAnonymousRoute(http.MethodPost, routerGroup.BasePath()+"/sign-up")
+	authRouter.AddAnonymousRoute(http.MethodPost, routerGroup.BasePath()+"/login")
 
 	routerGroup.POST("/otp", controllers.Controller.VerifyPhone)
-	authRouter.AddAnonymousRoute(http.MethodPost, routerGroup.BasePath()+"/sign-up")
+	authRouter.AddAnonymousRoute(http.MethodPost, routerGroup.BasePath()+"/otp")
 
 }

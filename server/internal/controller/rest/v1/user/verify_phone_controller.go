@@ -21,19 +21,21 @@ func (uc *UserController) VerifyPhone(c *gin.Context) {
 
 	otpToken, err := c.Cookie(OTPTokenKey)
 	if err != nil {
+		c.Error(err)
 		return
 	}
 
 	req.OTPToken = otpToken
 
-	sessionData, err := uc.identityService.Verify(ctx, req)
+	userData, err := uc.identityService.Verify(ctx, req)
 
 	if err != nil {
 		c.Error(err)
 		return
 	}
 
-	token, err := uc.sessionService.NewSession(ctx, sessionData.ID.String(), sessionData.FullName, session.DeviceInfo{
+	
+	token, err := uc.sessionService.NewSession(ctx, userData.ID.String(), userData.FullName, session.DeviceInfo{
 		UserAgent: c.Request.UserAgent(),
 		IPAddress: c.Request.RemoteAddr,
 	})
@@ -47,9 +49,9 @@ func (uc *UserController) VerifyPhone(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("otp-token", token.SessionID, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
+	c.SetCookie("session-id", token.SessionID, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
 
 	c.JSON(http.StatusOK, gin.H{
-		"msg": "otp token sent",
+		"msg": "otp verified",
 	})
 }
