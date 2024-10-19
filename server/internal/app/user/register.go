@@ -7,6 +7,7 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
+	"go.uber.org/zap"
 )
 
 func (is *IdentityService) RegisterUser(ctx context.Context, input *dto.UserInput) (otpID string, err error) {
@@ -17,6 +18,8 @@ func (is *IdentityService) RegisterUser(ctx context.Context, input *dto.UserInpu
 		// TODO[Clean]: empty token to defined type
 		return "", err
 	}
+
+	is.logger.Info("user info:", zap.Any("user", user))
 
 	if user == nil {
 		user, err = entity.NewUser(input.FirstName, input.LastName, input.PhoneNumber, input.NationalCode)

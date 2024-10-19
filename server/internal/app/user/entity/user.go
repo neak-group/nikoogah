@@ -17,21 +17,21 @@ const (
 )
 
 type User struct {
-	ID uuid.UUID
+	ID uuid.UUID `bson:"id"`
 
-	FirstName       string
-	LastName        string
-	PhoneNumber     coreobjects.PhoneNumber
-	PhoneVerifiedAt *time.Time
-	NationalCode    string
-	AvatarPath      string
-	ResumePath      string
-	UserState       UserState
+	FirstName       string                  `bson:"first_name"`
+	LastName        string                  `bson:"last_name"`
+	PhoneNumber     coreobjects.PhoneNumber `bson:"phone_number"`
+	PhoneVerifiedAt *time.Time              `bson:"phone_verified_at"`
+	NationalCode    string                  `bson:"national_code"`
+	AvatarPath      string                  `bson:"avatar_path"`
+	ResumePath      string                  `bson:"resume_path"`
+	UserState       UserState               `bson:"user_state"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
 
-	Events []eventbus.Event
+	Events []eventbus.Event `bson:"-"`
 }
 
 func NewUser(firstName, lastName, phoneNumber, nationalCode string) (*User, error) {

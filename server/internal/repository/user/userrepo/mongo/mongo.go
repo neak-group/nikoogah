@@ -55,7 +55,7 @@ func (repo *UserMongoRepository) FetchUserByPhone(ctx context.Context, phone str
 
 	var user entity.User
 
-	err = collection.FindOne(ctx, bson.D{{Key: "phone_number.phone_number", Value: phone}}).Decode(&user)
+	err = collection.FindOne(ctx, bson.M{"phone_number.phone_number": phone}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			repo.Logger.Info("user not found by phone", zap.String("phone", phone))
