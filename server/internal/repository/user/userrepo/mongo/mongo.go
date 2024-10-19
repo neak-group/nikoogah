@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -31,7 +31,7 @@ func (repo *UserMongoRepository) FetchUser(ctx context.Context, userID uuid.UUID
 	collection := db.Collection(repo.UsersCollection)
 
 	var user entity.User
-	err = collection.FindOne(ctx, bson.M{"_id": userID.String()}).Decode(&user)
+	err = collection.FindOne(ctx, bson.M{"id": userID}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			repo.Logger.Info("user not found", zap.String("userID", userID.String()))
@@ -54,6 +54,7 @@ func (repo *UserMongoRepository) FetchUserByPhone(ctx context.Context, phone str
 	collection := db.Collection(repo.UsersCollection)
 
 	var user entity.User
+
 	err = collection.FindOne(ctx, bson.D{{Key: "phone_number.phone_number", Value: phone}}).Decode(&user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -76,7 +77,7 @@ func (repo *UserMongoRepository) SaveUser(ctx context.Context, user *entity.User
 
 	collection := db.Collection(repo.UsersCollection)
 
-	filter := bson.M{"_id": user.ID.String()}
+	filter := bson.M{"id": user.ID}
 	update := bson.M{
 		"$set": bson.M{
 			"first_name":        user.FirstName,
@@ -114,7 +115,7 @@ func (repo *UserMongoRepository) DeleteUser(ctx context.Context, userID uuid.UUI
 
 	collection := db.Collection(repo.UsersCollection)
 
-	_, err = collection.DeleteOne(ctx, bson.M{"_id": userID})
+	_, err = collection.DeleteOne(ctx, bson.M{"id": userID})
 	if err != nil {
 		repo.Logger.Error("failed to delete user", zap.Error(err))
 		return err
@@ -139,7 +140,8 @@ func (repo *UserMongoRepository) ChangeUserState(ctx context.Context, userID uui
 		},
 	}
 
-	_, err = collection.UpdateOne(ctx, bson.M{"_id": userID.String()}, update)
+	repo.Logger.Info("user id when update", zap.String("userID", userID.String()))
+	_, err = collection.UpdateOne(ctx, bson.M{"id": userID}, update)
 	if err != nil {
 		repo.Logger.Error("failed to change user state", zap.Error(err))
 		return err

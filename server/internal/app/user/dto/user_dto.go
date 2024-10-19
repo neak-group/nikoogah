@@ -1,9 +1,9 @@
 package dto
 
 import (
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
 	coreobjects "github.com/neak-group/nikoogah/internal/core/valueobjects"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type UserInput struct {

@@ -2,4 +2,10 @@ package uuid
 
 import "github.com/google/uuid"
 
-type UUID uuid.UUID
+type UUID struct{ uuid.UUID }
+
+func New() UUID {
+	return UUID{
+		UUID: uuid.New(),
+	}
+}

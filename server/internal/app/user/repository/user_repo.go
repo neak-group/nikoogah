@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type UserRepository interface {

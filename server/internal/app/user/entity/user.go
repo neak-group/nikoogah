@@ -3,9 +3,9 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	coreobjects "github.com/neak-group/nikoogah/internal/core/valueobjects"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type UserState int
@@ -21,7 +21,7 @@ type User struct {
 
 	FirstName       string
 	LastName        string
-	PhoneNumber     coreobjects.PhoneNumber 
+	PhoneNumber     coreobjects.PhoneNumber
 	PhoneVerifiedAt *time.Time
 	NationalCode    string
 	AvatarPath      string
