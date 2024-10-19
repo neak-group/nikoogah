@@ -1,5 +1,7 @@
 package valueobjects
 
+import "fmt"
+
 type Address struct {
 	Province     string
 	City         string
@@ -15,4 +17,8 @@ func NewAddress(province, city, local, postalcode string) (Address, bool) {
 		LocalAddress: local,
 		PostalCode:   postalcode,
 	}, true
+}
+
+func (address Address) String() string {
+	return fmt.Sprintf("%s, %s, %s", address.Province, address.City, address.LocalAddress)
 }

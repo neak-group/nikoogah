@@ -5,7 +5,6 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
-	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 )
 
@@ -34,11 +33,20 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideFetchCharityUC)
 }
 
-func (uc FetchCharityUseCase) Execute(ctx context.Context, params dto.FetchCharityParams) (*entity.Charity, error) {
-	charity, err := uc.repo.FetchCharity(ctx,params.CharityID)
+func (uc FetchCharityUseCase) Execute(ctx context.Context, params *dto.FetchCharityParams) (*dto.CharityDTO, error) {
+	charity, err := uc.repo.FetchCharity(ctx, params.CharityID)
 	if err != nil {
 		return nil, err
 	}
 
-	return charity, nil
+	return &dto.CharityDTO{
+		Name:       charity.Name,
+		Phone:      charity.Phone.Number,
+		Email:      string(charity.EmailAddress),
+		Address:    charity.Address.String(),
+		PostalCode: charity.Address.PostalCode,
+		NationalID: charity.NationalID,
+		EconomicID: charity.EconomicNumber,
+		CEO:        charity.CEO,
+	}, nil
 }

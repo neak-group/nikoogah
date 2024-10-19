@@ -36,11 +36,13 @@ func init() {
 }
 
 func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCharityParams) (uuid.UUID, error) {
-	charity, err := uc.repo.FetchCharity(ctx,params.ID)
+	charity, err := uc.repo.FetchCharity(ctx, params.ID)
 	if err != nil {
 		return uuid.Nil, err
 	}
 	charity.Events = make([]eventbus.Event, 0)
+
+	//TODO[security]: check representative access
 
 	err = charity.UpdateCharityName(params.Name)
 	if err != nil {

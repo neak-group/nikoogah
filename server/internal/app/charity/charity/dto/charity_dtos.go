@@ -32,18 +32,13 @@ type FetchCharityParams struct {
 	CharityID uuid.UUID
 }
 
-type AddRepresentativeParams struct {
-	CharityID uuid.UUID
-	UserID    uuid.UUID
-}
-
-type RemoveRepresentativeParams struct {
-	CharityID uuid.UUID
-	UserID    uuid.UUID
-}
-
-type CheckRepresentativeAccessParams struct {
-	CharityID uuid.UUID
-	UserID    uuid.UUID
-	AccessKey string
+type CharityDTO struct {
+	Name          string
+	Phone         string
+	Email         string
+	Address       string
+	PostalCode    string
+	NationalID    string
+	EconomicID    string
+	CEO           string
 }

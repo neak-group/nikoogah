@@ -7,7 +7,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 )
 
-func (uc *CharityController) RegisterUser(c *gin.Context) {
+func (uc *CharityController) RegisterCharity(c *gin.Context) {
 	ctx := c.Request.Context()
 
 	req := new(dto.RegisterCharityParams)
