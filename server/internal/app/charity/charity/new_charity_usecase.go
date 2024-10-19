@@ -36,7 +36,7 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideRegisterCharityUC)
 }
 
-func (uc RegisterCharityUseCase) Execute(ctx context.Context, params dto.RegisterCharityParams) (uuid.UUID, error) {
+func (uc RegisterCharityUseCase) Execute(ctx context.Context, params *dto.RegisterCharityParams) (uuid.UUID, error) {
 	//TODO: fix aggregate transactions
 
 	charity, err := entity.NewCharity(params.Name)
