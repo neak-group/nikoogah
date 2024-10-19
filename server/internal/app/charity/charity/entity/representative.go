@@ -3,13 +3,13 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type Representative struct {
-	UserID   uuid.UUID
-	Role     RepresentativeRole
-	JoinedAt time.Time
+	UserID   uuid.UUID          `bson:"user_id"`
+	Role     RepresentativeRole `bson:"role"`
+	JoinedAt time.Time          `bson:"joined_at"`
 }
 
 type RepresentativeRole string

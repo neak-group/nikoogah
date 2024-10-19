@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 
-	"github.com/google/uuid"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type CharityAccessService interface {

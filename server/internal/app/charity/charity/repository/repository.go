@@ -1,16 +1,18 @@
 package repository
 
 import (
-	"github.com/google/uuid"
+	"context"
+
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type CharityRepository interface {
-	FindCharityTierID(name string) (uuid.UUID, error)
-	FetchCharity(id uuid.UUID) (*entity.Charity, error)
-	CreateCharity(charity *entity.Charity) (uuid.UUID, error)
-	SaveCharity(charity *entity.Charity) (uuid.UUID, error)
+	FindCharityTierID(ctx context.Context, name string) (uuid.UUID, error)
+	FetchCharity(ctx context.Context, id uuid.UUID) (*entity.Charity, error)
+	CreateCharity(ctx context.Context, charity *entity.Charity) (uuid.UUID, error)
+	SaveCharity(ctx context.Context, charity *entity.Charity) (uuid.UUID, error)
 
-	FindRepresentativeByUserID(userID uuid.UUID) (*entity.Representative, error)
-	FindExistingRepresentativeByUserID(userID uuid.UUID) (bool, error)
+	FindRepresentativeByUserID(ctx context.Context, userID uuid.UUID) (*entity.Representative, error)
+	FindExistingRepresentativeByUserID(ctx context.Context, userID uuid.UUID) (bool, error)
 }

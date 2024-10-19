@@ -3,11 +3,11 @@ package charity
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type ModifyCharityUseCase struct {
@@ -36,7 +36,7 @@ func init() {
 }
 
 func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCharityParams) (uuid.UUID, error) {
-	charity, err := uc.repo.FetchCharity(params.ID)
+	charity, err := uc.repo.FetchCharity(ctx,params.ID)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -59,7 +59,7 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCha
 		return uuid.Nil, err
 	}
 
-	charityID, err := uc.repo.SaveCharity(charity)
+	charityID, err := uc.repo.SaveCharity(ctx, charity)
 	if err != nil {
 		//TODO: fix error
 		return uuid.Nil, err

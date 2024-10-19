@@ -35,7 +35,7 @@ func init() {
 }
 
 func (uc FetchCharityUseCase) Execute(ctx context.Context, params dto.FetchCharityParams) (*entity.Charity, error) {
-	charity, err := uc.repo.FetchCharity(params.CharityID)
+	charity, err := uc.repo.FetchCharity(ctx,params.CharityID)
 	if err != nil {
 		return nil, err
 	}

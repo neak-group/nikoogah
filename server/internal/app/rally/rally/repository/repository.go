@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"github.com/shopspring/decimal"
 )
 

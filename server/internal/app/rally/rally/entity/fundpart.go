@@ -3,7 +3,7 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"github.com/shopspring/decimal"
 )
 

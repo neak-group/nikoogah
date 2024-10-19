@@ -3,10 +3,10 @@ package charityaccess
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/utils/contextutils"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type charityAccessServiceImpl struct {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type ContextKeyUserID struct{}

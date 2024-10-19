@@ -4,28 +4,28 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/valueobjects"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type Charity struct {
-	ID             uuid.UUID
-	CharityTierID  string
-	Name           string
-	Address        valueobjects.Address
-	Phone          valueobjects.PhoneNumber
-	EmailAddress   valueobjects.EmailAddress
-	NationalID     string
-	EconomicNumber string
-	CEO            string
+	ID             uuid.UUID                 `bson:"id"`
+	CharityTierID  string                    `bson:"charity_tier_id"`
+	Name           string                    `bson:"name"`
+	Address        valueobjects.Address      `bson:"address"`
+	Phone          valueobjects.PhoneNumber  `bson:"phone_number"`
+	EmailAddress   valueobjects.EmailAddress `bson:"email_address"`
+	NationalID     string                    `bson:"nationl_id"`
+	EconomicNumber string                    `bson:"economic_code"`
+	CEO            string                    `bson:"ceo"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
 
-	Credibility     Credibility
-	Representatives []*Representative
-	Events          []eventbus.Event
+	Credibility     Credibility       `bson:"credibility"`
+	Representatives []*Representative `bson:"representative"`
+	Events          []eventbus.Event  `bson:"-"`
 }
 
 func NewCharity(name string) (*Charity, error) {

@@ -3,12 +3,12 @@ package services
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	rallyRepo "github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	volunteerEntity "github.com/neak-group/nikoogah/internal/app/rally/volunteer/entity"
 	volunteerRepo "github.com/neak-group/nikoogah/internal/app/rally/volunteer/repository"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"go.uber.org/fx"
 )
 

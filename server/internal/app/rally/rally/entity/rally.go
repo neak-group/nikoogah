@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"github.com/shopspring/decimal"
 )
 

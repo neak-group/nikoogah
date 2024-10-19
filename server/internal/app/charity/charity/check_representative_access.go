@@ -36,13 +36,13 @@ func init() {
 }
 
 func (uc CheckRepresentativeAccessUseCase) Execute(ctx context.Context, params dto.CheckRepresentativeAccessParams) (bool, error) {
-	charity, err := uc.repo.FetchCharity(params.CharityID)
+	charity, err := uc.repo.FetchCharity(ctx, params.CharityID)
 	if err != nil {
 		return false, err
 	}
 	charity.Events = make([]eventbus.Event, 0)
 
-	rep, err := uc.repo.FindRepresentativeByUserID(params.UserID)
+	rep, err := uc.repo.FindRepresentativeByUserID(ctx, params.UserID)
 	if err != nil {
 		return false, err
 	}

@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/google/uuid"
+import "github.com/neak-group/nikoogah/utils/uuid"
 
 type RegisterCharityParams struct {
 	Name          string

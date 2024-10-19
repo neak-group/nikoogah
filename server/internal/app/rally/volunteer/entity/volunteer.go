@@ -1,9 +1,9 @@
 package entity
 
-import "github.com/google/uuid"
+import "github.com/neak-group/nikoogah/utils/uuid"
 
 type Volunteer struct {
 	VolunteerID uuid.UUID
-	FullName string
-	Reputation float32
+	FullName    string
+	Reputation  float32
 }

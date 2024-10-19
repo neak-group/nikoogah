@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/core/service/security/otp"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
+	"github.com/neak-group/nikoogah/utils/uuid"
 	"go.uber.org/fx"
 )
 

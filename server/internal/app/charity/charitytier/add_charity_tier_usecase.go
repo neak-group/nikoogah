@@ -3,10 +3,10 @@ package charitytier
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charitytier/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charitytier/entity"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type AddCharityTierUseCase struct {

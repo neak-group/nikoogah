@@ -1,6 +1,6 @@
 package entity
 
-import "github.com/google/uuid"
+import "github.com/neak-group/nikoogah/utils/uuid"
 
 type CharityTier struct {
 	ID                  uuid.UUID

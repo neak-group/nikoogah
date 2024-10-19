@@ -3,12 +3,12 @@ package charity
 import (
 	"context"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
 	"github.com/neak-group/nikoogah/utils/contextutils"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type RegisterCharityUseCase struct {
@@ -70,7 +70,7 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params dto.Registe
 		return uuid.Nil, err
 	}
 
-	charityID, err := uc.repo.CreateCharity(charity)
+	charityID, err := uc.repo.CreateCharity(ctx, charity)
 	if err != nil {
 		//TODO: fix error
 		return uuid.Nil, err

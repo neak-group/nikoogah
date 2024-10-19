@@ -4,11 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
+	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type GetParticipantsUseCase struct {

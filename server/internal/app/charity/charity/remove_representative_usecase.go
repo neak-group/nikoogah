@@ -38,7 +38,7 @@ func init() {
 }
 
 func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.RemoveRepresentativeParams) error {
-	charity, err := uc.repo.FetchCharity(params.CharityID)
+	charity, err := uc.repo.FetchCharity(ctx, params.CharityID)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.Re
 		return err
 	}
 
-	manager, err := uc.repo.FindRepresentativeByUserID(requesterID)
+	manager, err := uc.repo.FindRepresentativeByUserID(ctx, requesterID)
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.Re
 		return fmt.Errorf("unauthorized access")
 	}
 
-	repExists, err := uc.repo.FindExistingRepresentativeByUserID(params.UserID)
+	repExists, err := uc.repo.FindExistingRepresentativeByUserID(ctx, params.UserID)
 	if err != nil {
 		return err
 	}
@@ -72,7 +72,7 @@ func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.Re
 		return err
 	}
 
-	_, err = uc.repo.SaveCharity(charity)
+	_, err = uc.repo.SaveCharity(ctx, charity)
 	if err != nil {
 		return err
 	}
