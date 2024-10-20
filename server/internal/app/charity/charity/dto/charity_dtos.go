@@ -3,29 +3,29 @@ package dto
 import "github.com/neak-group/nikoogah/utils/uuid"
 
 type RegisterCharityParams struct {
-	Name          string
-	Phone         string
-	CityPhoneCode string
-	Email         string
-	Province      string
-	City          string
-	Address       string
-	PostalCode    string
-	NationalID    string
-	EconomicID    string
-	CEO           string
+	Name          string `json:"name"`
+	Phone         string `json:"phone"`
+	CityPhoneCode string `json:"cityPhoneCode"`
+	Email         string `json:"email"`
+	Province      string `json:"province"`
+	City          string `json:"city"`
+	Address       string `json:"address"`
+	PostalCode    string `json:"postalCode"`
+	NationalID    string `json:"nationalId"`
+	EconomicID    string `json:"economicId"`
+	CEO           string `json:"ceo"`
 }
 
 type ModifyCharityParams struct {
-	ID            uuid.UUID
-	Name          string
-	Phone         string
-	CityPhoneCode string
-	Email         string
-	Province      string
-	City          string
-	Address       string
-	PostalCode    string
+	ID            uuid.UUID `json:"-"`
+	Name          string    `json:"name"`
+	Phone         string    `json:"phone"`
+	CityPhoneCode string    `json:"cityPhoneCode"`
+	Email         string    `json:"email"`
+	Province      string    `json:"province"`
+	City          string    `json:"city"`
+	Address       string    `json:"address"`
+	PostalCode    string    `json:"postalCode"`
 }
 
 type FetchCharityParams struct {
@@ -33,12 +33,12 @@ type FetchCharityParams struct {
 }
 
 type CharityDTO struct {
-	Name          string
-	Phone         string
-	Email         string
-	Address       string
-	PostalCode    string
-	NationalID    string
-	EconomicID    string
-	CEO           string
+	Name       string `json:"name"`
+	Phone      string `json:"phone"`
+	Email      string `json:"email"`
+	Address    string `json:"address"`
+	PostalCode string `json:"postalCode"`
+	NationalID string `json:"nationalId"`
+	EconomicID string `json:"economicId"`
+	CEO        string `json:"ceo"`
 }
