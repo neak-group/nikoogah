@@ -20,7 +20,7 @@ func ProvideMongoRepositoryImpl(params MongoRepositoryImplParams) repository.Cha
 		MongoClient: params.MongoClient,
 		Logger:      params.Logger,
 
-		CharityDatabase:     "user_database",
-		CharitiesCollection: "base_user",
+		CharityDatabase:     "charity_database",
+		CharitiesCollection: "charity",
 	}
 }

@@ -49,7 +49,7 @@ func (uc *UserController) VerifyPhone(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("session-id", token.SessionID, int(2*time.Minute.Seconds()), "/", c.Request.Host, true, true)
+	c.SetCookie("session-id", token.SessionID, int( 30 * 24 *time.Hour.Seconds()), "/", c.Request.Host, true, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"msg": "otp verified",

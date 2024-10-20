@@ -30,13 +30,13 @@ func (r Authenticator) Authenticate(logger *zap.Logger) gin.HandlerFunc {
 			return
 		}
 
-		authCookie, err := c.Request.Cookie("session-id")
+		authCookie, err := c.Cookie("session-id")
 		if err != nil {
 			c.Error(err)
 			return
 		}
 
-		sessionID := authCookie.Value
+		sessionID := authCookie
 
 		session, err := r.sessionService.ValidateSession(ctx, sessionID)
 		if err != nil {

@@ -9,21 +9,25 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
 	"go.uber.org/fx"
+	"go.uber.org/zap"
 )
 
 type SessionService struct {
 	keyStore keystorefx.KeyStoreConn
+	logger   *zap.Logger
 }
 
 type SessionServiceParams struct {
 	fx.In
 
 	Keystore keystorefx.KeyStoreConn
+	Logger   *zap.Logger
 }
 
 func ProvideSessionService(p SessionServiceParams) *SessionService {
 	return &SessionService{
 		keyStore: p.Keystore,
+		logger:   p.Logger,
 	}
 }
 
@@ -106,6 +110,7 @@ func (ss *SessionService) ValidateSession(ctx context.Context, sessionID string)
 		return nil, err
 	}
 	if len(data) == 0 {
+		ss.logger.Info("session data retrieved from redis", zap.Any("data", data), zap.String("sessKey", sessionKey))
 		return nil, fmt.Errorf("session not found")
 	}
 
