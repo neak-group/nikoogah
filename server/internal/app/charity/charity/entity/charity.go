@@ -11,7 +11,7 @@ import (
 
 type Charity struct {
 	ID             uuid.UUID                 `bson:"id"`
-	CharityTierID  string                    `bson:"charity_tier_id"`
+	CharityTier    string                    `bson:"charity_tier_id"`
 	Name           string                    `bson:"name"`
 	Address        valueobjects.Address      `bson:"address"`
 	Phone          valueobjects.PhoneNumber  `bson:"phone_number"`
@@ -30,7 +30,7 @@ type Charity struct {
 
 func NewCharity(name string) (*Charity, error) {
 	charity := &Charity{
-		CharityTierID:   "basic",
+		CharityTier:     "basic",
 		Name:            name,
 		Representatives: make([]*Representative, 0),
 

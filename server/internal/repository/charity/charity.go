@@ -1,11 +1,13 @@
-package user
+package charity
 
-import "github.com/neak-group/nikoogah/internal/repository/user/userrepo"
+import (
+	"github.com/neak-group/nikoogah/internal/repository/charity/charityrepo"
+)
 
 func GetRepoProviders() []interface{} {
 	providers := make([]interface{}, 0)
 
-	providers = append(providers, userrepo.ProvideMongoRepositoryImpl)
+	providers = append(providers, charityrepo.ProvideMongoRepositoryImpl)
 
 	return providers
 }

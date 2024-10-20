@@ -12,7 +12,7 @@ import (
 func (uc *CharityController) FetchCharity(c *gin.Context) {
 	ctx := c.Request.Context()
 
-	id, err := uuid.Parse(c.Param("id"))
+	id, err := uuid.Parse(c.Param("charity-id"))
 	if err != nil {
 		c.Error(fmt.Errorf("invalid id:%w", err))
 		return

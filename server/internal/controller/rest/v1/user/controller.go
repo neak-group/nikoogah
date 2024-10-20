@@ -26,8 +26,8 @@ type UserControllerParams struct {
 	Logger *zap.Logger
 }
 
-func NewUserController(params UserControllerParams) UserController {
-	return UserController{
+func NewUserController(params UserControllerParams) *UserController {
+	return &UserController{
 		identityService: params.IdentityService,
 		sessionService:  params.SessionService,
 		logger:          params.Logger,

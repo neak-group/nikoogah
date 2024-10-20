@@ -12,7 +12,7 @@ import (
 type UserControllerGroup struct {
 	fx.In
 
-	Controller user.UserController
+	Controller *user.UserController
 }
 
 func AddUserRoutes(parent *gin.RouterGroup, authRouter *auth.Authenticator, controllers UserControllerGroup) {

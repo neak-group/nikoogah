@@ -58,7 +58,7 @@ func (r *CharityMongoRepository) FindCharityTierID(ctx context.Context, name str
 		return uuid.Nil, err
 	}
 
-	charityTierID, err := uuid.Parse(result.CharityTierID)
+	charityTierID, err := uuid.Parse(result.CharityTier)
 	if err != nil {
 		r.Logger.Error("Error parsing charity tier ID", zap.Error(err))
 		return uuid.Nil, err

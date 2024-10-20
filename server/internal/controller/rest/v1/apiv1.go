@@ -8,8 +8,9 @@ func RegisterControllerProvider(provider interface{}) {
 	}
 
 	if controllerProviders == nil {
-		controllerProviders = append(controllerProviders, provider)
+		controllerProviders = make([]any, 0)
 	}
+	controllerProviders = append(controllerProviders, provider)
 }
 
 func ProvideV1RestControllers() []any{

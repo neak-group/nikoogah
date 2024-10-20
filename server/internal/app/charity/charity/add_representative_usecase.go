@@ -36,8 +36,8 @@ func init() {
 	app.RegisterUseCaseProvider(ProvideAddRepresentativeUC)
 }
 
-func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params dto.AddRepresentativeParams) error {
-	charity, err := uc.repo.FetchCharity(ctx,params.CharityID)
+func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params *dto.AddRepresentativeParams) error {
+	charity, err := uc.repo.FetchCharity(ctx, params.CharityID)
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params dto.AddRe
 		return err
 	}
 
-	manager, err := uc.repo.FindRepresentativeByUserID(ctx,requesterID)
+	manager, err := uc.repo.FindRepresentativeByUserID(ctx, requesterID)
 	if err != nil {
 		return err
 	}
@@ -67,12 +67,14 @@ func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params dto.AddRe
 		return fmt.Errorf("representative already exists")
 	}
 
+	//TODO: check representative limits
+
 	err = charity.AddRepresentative(params.UserID, entity.Employee)
 	if err != nil {
 		return err
 	}
 
-	_, err = uc.repo.SaveCharity(ctx,charity)
+	_, err = uc.repo.SaveCharity(ctx, charity)
 	if err != nil {
 		return err
 	}
