@@ -7,6 +7,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/events"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
@@ -75,6 +76,14 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params *dto.Regist
 		//TODO: fix error
 		return uuid.Nil, err
 	}
+
+	charity.Events = append(charity.Events, events.CharityUpdatedEvent{
+		ID:            charityID,
+		Name:          charity.Name,
+		Phone:         charity.Phone.Number,
+		Email:         string(charity.EmailAddress),
+		MaxRallyLimit: entity.TierMap[charity.CharityTier].GetRallyLimit(),
+	})
 
 	//TODO: fire event charity created
 	uc.EventDispatcher.DispatchBatch(charity.Events)

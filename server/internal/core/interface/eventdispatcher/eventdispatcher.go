@@ -33,6 +33,7 @@ func (ed eventDispatcherImpl) DispatchBatch(events []eventbus.Event) error {
 
 	//TODO: Dead Letter Pattern
 	for _, e := range events {
+		ed.logger.Info("event dispatched", zap.String("event_type", e.GetEventType()))
 		if err := ed.eventbus.Publish(e); err != nil {
 			ed.logger.Error(err.Error())
 		}

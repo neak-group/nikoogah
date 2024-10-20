@@ -44,9 +44,11 @@ func (h UpdateCharityHandler) Handle(ctx context.Context, e eventbus.Event) erro
 		h.Logger.Error("invalid event type")
 	}
 
+	h.Logger.Info("charity handler called")
+
 	charity := entity.UpdateCharity(charityEvent.ID, charityEvent.Name, charityEvent.Phone, charityEvent.Email)
 
-	err := h.repo.SaveCharity(charity)
+	err := h.repo.SaveCharity(ctx, charity)
 	if err != nil {
 		return err
 	}

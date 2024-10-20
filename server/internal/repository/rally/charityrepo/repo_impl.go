@@ -1,9 +1,9 @@
 package charityrepo
 
 import (
-	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/app/rally/charity/repository"
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"
-	"github.com/neak-group/nikoogah/internal/repository/charity/charityrepo/mongo"
+	"github.com/neak-group/nikoogah/internal/repository/rally/charityrepo/mongo"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -16,11 +16,11 @@ type MongoRepositoryImplParams struct {
 }
 
 func ProvideMongoRepositoryImpl(params MongoRepositoryImplParams) repository.CharityRepository {
-	return &mongo.CharityMongoRepository{
+	return &mongo.RlyCharityMongoRepository{
 		MongoClient: params.MongoClient,
 		Logger:      params.Logger,
 
-		CharityDatabase:     "charity_database",
-		CharitiesCollection: "chr_charity",
+		RallyDatabase:       "rally_database",
+		CharitiesCollection: "rly_charity",
 	}
 }

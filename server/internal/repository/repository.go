@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/neak-group/nikoogah/internal/repository/charity"
+	"github.com/neak-group/nikoogah/internal/repository/rally"
 	"github.com/neak-group/nikoogah/internal/repository/user"
 	"go.uber.org/fx"
 )
@@ -15,6 +16,7 @@ func ProvideRepositories() []interface{} {
 
 	providers = append(providers, user.GetRepoProviders()...)
 	providers = append(providers, charity.GetRepoProviders()...)
+	providers = append(providers, rally.GetRepoProviders()...)
 
 	return providers
 }
