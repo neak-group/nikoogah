@@ -14,5 +14,5 @@ type ProfileDTO struct {
 }
 
 type FetchProfileParams struct {
-	VolunteerID uuid.UUID
+	VolunteerID uuid.UUID `json:"volunteerId"`
 }

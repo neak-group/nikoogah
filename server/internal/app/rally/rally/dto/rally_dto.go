@@ -44,7 +44,7 @@ type NewRallyParams struct {
 }
 
 type NewHumanParticipationParams struct {
-	RallyID         uuid.UUID
+	RallyID         uuid.UUID `json:"-"`
 	VolunteerID     uuid.UUID
 	VolunteerPhone  string
 	VolunteerEmail  string
