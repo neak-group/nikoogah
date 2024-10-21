@@ -27,4 +27,7 @@ func AddRallyRoutes(parent *gin.RouterGroup, authRouter *auth.Authenticator, par
 	participationGroup.PUT("/fund", params.ParticipationController.RegisterFundParticipation)
 	participationGroup.PUT("/aid", params.ParticipationController.RegisterHumanParticipation)
 	participationGroup.GET("/aid", params.ParticipationController.FetchParticipants)
+
+
+
 }
