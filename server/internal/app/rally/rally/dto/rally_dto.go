@@ -7,6 +7,29 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+type RallyDTO struct {
+	ID                      uuid.UUID       `json:"id"`
+	Title                   string          `json:"title"`
+	CharityID               uuid.UUID       `json:"charityId"`
+	EndDate                 time.Time       `json:"endDate"`
+	Description             string          `json:"description"`
+	State                   string          `json:"state"`
+	RallyFee                decimal.Decimal `json:"rallyFee"`
+	NeedsHumanParticipation bool            `json:"needsHumanParticipation"`
+	ApplicantCap            int             `json:"applicantCap"`
+	HumanParticipationCount int             `json:"humanParticipationCount"`
+	NeedsFunding            bool            `json:"needsFunding"`
+	FundAmount              decimal.Decimal `json:"fundAmount"`
+	OpenFund                bool            `json:"openFund"`
+	FundParticipationCount  int             `json:"fundParticipationCount"`
+	CreatedAt               time.Time       `json:"createdAt"`
+	UpdatedAt               time.Time       `json:"updatedAt"`
+}
+
+type FetchRallyParams struct {
+	RallyID uuid.UUID
+}
+
 type NewRallyParams struct {
 	CharityID   uuid.UUID
 	Title       string
@@ -47,4 +70,13 @@ type HumanParticipationDTO struct {
 	Email               string
 	ResumeFile          string
 	Status              string
+}
+
+type GetParticipantsParams struct {
+	RallyID uuid.UUID
+}
+
+type FetchCharityRalliesParams struct {
+	CharityID  uuid.UUID `json:"charityId"`
+	OnlyActive bool      `json:"onlyActive"`
 }

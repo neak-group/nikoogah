@@ -31,7 +31,7 @@ func ProvideNewHumanParticipationUC(params NewHumanParticipationUCParams) *NewHu
 	}
 }
 
-func (uc *NewHumanParticipationUseCase) Execute(ctx context.Context, params dto.NewHumanParticipationParams) error {
+func (uc *NewHumanParticipationUseCase) Execute(ctx context.Context, params *dto.NewHumanParticipationParams) error {
 	rally, err := uc.repo.FetchRally(ctx, params.RallyID)
 	if err != nil {
 		return err

@@ -8,7 +8,6 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
-	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type GetParticipantsUseCase struct {
@@ -37,11 +36,7 @@ func ProvideGetParticipantsUC(params GetParticipantsUCParams) *GetParticipantsUs
 	}
 }
 
-type GetParticipantsParams struct {
-	RallyID uuid.UUID
-}
-
-func (uc *GetParticipantsUseCase) Execute(ctx context.Context, params GetParticipantsParams) ([]*dto.HumanParticipationDTO, error) {
+func (uc *GetParticipantsUseCase) Execute(ctx context.Context, params *dto.GetParticipantsParams) ([]*dto.HumanParticipationDTO, error) {
 	rally, err := uc.repo.FetchRally(ctx, params.RallyID)
 	if err != nil {
 		return nil, err

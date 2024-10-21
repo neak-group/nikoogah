@@ -31,7 +31,7 @@ func ProvideNewFundParticipationUC(params NewFundParticipationUCParams) *NewFund
 	}
 }
 
-func (uc *NewFundParticipationUseCase) Execute(ctx context.Context, params dto.NewFundParticipationParams) error {
+func (uc *NewFundParticipationUseCase) Execute(ctx context.Context, params *dto.NewFundParticipationParams) error {
 	rally, err := uc.repo.FetchRally(ctx, params.RallyID)
 	if err != nil {
 		return err

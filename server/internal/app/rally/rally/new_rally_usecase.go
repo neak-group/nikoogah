@@ -33,7 +33,7 @@ func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {
 	}
 }
 
-func (uc *NewRallyUseCase) Execute(ctx context.Context, params dto.NewRallyParams) (uuid.UUID, error) {
+func (uc *NewRallyUseCase) Execute(ctx context.Context, params *dto.NewRallyParams) (uuid.UUID, error) {
 	max, err := uc.repo.FetchCharityRallyCount(ctx, params.CharityID)
 	if err != nil {
 		return uuid.Nil, err
