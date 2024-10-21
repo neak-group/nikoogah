@@ -16,16 +16,15 @@ type V1RoutesParams struct {
 	routes.UserControllerGroup
 	routes.CharityControllerGroup
 	routes.RallyControllerGroup
+	routes.VolunteerControllerGroup
 }
 
-func AddV1Routes(baseRouter *gin.RouterGroup,authenticator *auth.Authenticator, params V1RoutesParams) {
+func AddV1Routes(baseRouter *gin.RouterGroup, authenticator *auth.Authenticator, params V1RoutesParams) {
 
 	apiv1 := baseRouter.Group("/v1")
-
-
-	
 
 	routes.AddUserRoutes(apiv1, authenticator, params.UserControllerGroup)
 	routes.AddRallyRoutes(apiv1, authenticator, params.RallyControllerGroup)
 	routes.AddCharityRoutes(apiv1, authenticator, params.CharityControllerGroup)
+	routes.AddVolunteerRoutes(apiv1, authenticator, params.VolunteerControllerGroup)
 }

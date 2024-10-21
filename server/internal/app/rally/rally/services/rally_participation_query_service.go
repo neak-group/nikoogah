@@ -23,14 +23,14 @@ type RallyParticipationQueryServiceImpl struct {
 type RallyParticipationQueryServiceParams struct {
 	fx.In
 
-	rallyRepo     rallyRepo.RallyRepository
-	volunteerRepo volunteerRepo.VolunteerRepository
+	RallyRepo     rallyRepo.RallyRepository
+	VolunteerRepo volunteerRepo.VolunteerRepository
 }
 
 func NewRallyParticipationQueryService(params RallyParticipationQueryServiceParams) RallyParticipationQueryService {
 	return &RallyParticipationQueryServiceImpl{
-		volunteerRepo: params.volunteerRepo,
-		rallyRepo:     params.rallyRepo,
+		volunteerRepo: params.VolunteerRepo,
+		rallyRepo:     params.RallyRepo,
 	}
 }
 

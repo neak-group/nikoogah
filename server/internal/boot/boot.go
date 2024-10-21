@@ -13,6 +13,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"
 	"github.com/neak-group/nikoogah/internal/infra/telemetry"
 	"github.com/neak-group/nikoogah/internal/repository"
+	"github.com/neak-group/nikoogah/internal/services"
 	"github.com/spf13/viper"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -30,7 +31,7 @@ func Boot() (*fx.App, error) {
 				if err := godotenv.Load(".env"); err != nil {
 					panic(err)
 				}
-				
+
 				logger.Info("env initiated")
 			}
 			viper.AutomaticEnv()
@@ -44,8 +45,10 @@ func Boot() (*fx.App, error) {
 		platform.Module,
 		//Init Repositories
 		repository.GetModule(),
+		services.Module,
 		app.GetModule(),
 		controller.GetModule(),
+
 		fx.Provide(
 			api.ProvideHTTPRouter,
 			httpserver.NewHTTPServer,
