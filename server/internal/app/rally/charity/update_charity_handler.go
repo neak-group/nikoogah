@@ -3,32 +3,28 @@ package charity
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/domain/events"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 )
 
 type UpdateCharityHandlerFxParams struct {
-	app.HandlerParams
+	base.HandlerParams
 
 	Repo repository.CharityRepository
 }
 
 type UpdateCharityHandler struct {
-	app.BaseHandler
+	base.BaseHandler
 	repo repository.CharityRepository
-}
-
-func init() {
-	app.RegisterHandlerProvider(ProvideCharityHandler)
 }
 
 func ProvideCharityHandler(params UpdateCharityHandlerFxParams) eventbus.EventHandler {
 	return &UpdateCharityHandler{
 		repo: params.Repo,
-		BaseHandler: app.BaseHandler{
+		BaseHandler: base.BaseHandler{
 			Logger: params.Logger,
 		},
 	}

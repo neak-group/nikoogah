@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	rallyRepo "github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	volunteerEntity "github.com/neak-group/nikoogah/internal/app/rally/volunteer/entity"
@@ -33,10 +32,6 @@ func NewRallyParticipationQueryService(params RallyParticipationQueryServicePara
 		volunteerRepo: params.volunteerRepo,
 		rallyRepo:     params.rallyRepo,
 	}
-}
-
-func init() {
-	app.RegisterDomainServiceProvider(NewRallyParticipationQueryService)
 }
 
 func (qs *RallyParticipationQueryServiceImpl) GetRallyHumanParticipation(ctx context.Context, rallyID uuid.UUID) ([]*dto.HumanParticipationDTO, error) {

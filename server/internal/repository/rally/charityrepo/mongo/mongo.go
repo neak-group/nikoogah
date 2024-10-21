@@ -9,6 +9,7 @@ import (
 	"github.com/neak-group/nikoogah/utils/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
 )
 
@@ -65,7 +66,7 @@ func (r *RlyCharityMongoRepository) SaveCharity(ctx context.Context, charity *en
 	filter := bson.M{"id": charity.CharityID}
 	update := bson.M{"$set": charity}
 
-	_, err = collection.UpdateOne(ctx, filter, update)
+	_, err = collection.UpdateOne(ctx, filter, update, options.Update().SetUpsert(true))
 	if err != nil {
 		r.Logger.Error("Error updating charity", zap.Error(err))
 		return err

@@ -3,20 +3,20 @@ package charity
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 )
 
 type CheckRepresentativeAccessUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.CharityRepository
 }
 
 type CheckRepresentativeAccessUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.CharityRepository
 }
@@ -24,15 +24,11 @@ type CheckRepresentativeAccessUCParams struct {
 func ProvideCheckRepresentativeAccessUC(params CheckRepresentativeAccessUCParams) *CheckRepresentativeAccessUseCase {
 	return &CheckRepresentativeAccessUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideCheckRepresentativeAccessUC)
 }
 
 func (uc CheckRepresentativeAccessUseCase) Execute(ctx context.Context, params dto.CheckRepresentativeAccessParams) (bool, error) {

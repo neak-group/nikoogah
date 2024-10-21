@@ -3,19 +3,19 @@ package rally
 import (
 	"fmt"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/shopspring/decimal"
 )
 
 type NewFundParticipationUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.RallyRepository
 }
 
 type NewFundParticipationUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.RallyRepository
 }
@@ -23,15 +23,11 @@ type NewFundParticipationUCParams struct {
 func ProvideNewFundParticipationUC(params NewFundParticipationUCParams) *NewFundParticipationUseCase {
 	return &NewFundParticipationUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideNewFundParticipationUC)
 }
 
 func (uc *NewFundParticipationUseCase) Execute(params dto.NewFundParticipationParams) error {

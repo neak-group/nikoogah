@@ -4,21 +4,21 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type NewRallyUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 
 	repo repository.RallyRepository
 }
 
 type NewRallyUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.RallyRepository
 }
@@ -26,15 +26,11 @@ type NewRallyUCParams struct {
 func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {
 	return &NewRallyUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideNewRallyUC)
 }
 
 func (uc *NewRallyUseCase) Execute(ctx context.Context, params dto.NewRallyParams) (uuid.UUID, error) {

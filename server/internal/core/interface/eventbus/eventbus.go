@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
+	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
 
@@ -15,14 +16,21 @@ type eventBusImpl struct {
 	logger *zap.Logger
 }
 
-func ProvideEventBus(handlers []eventbus.EventHandler, logger *zap.Logger) eventbus.EventBus {
+type EventBusParams struct {
+	fx.In
+
+	Handlers []eventbus.EventHandler `group:"event-handlers"`
+	Logger   *zap.Logger
+}
+
+func ProvideEventBus(params EventBusParams) eventbus.EventBus {
 	eventBus := &eventBusImpl{
 		handlers: make(map[string][]eventbus.EventHandler),
-		logger:   logger,
+		logger:   params.Logger,
 	}
-
-	for _, h := range handlers {
-
+	eventBus.logger.Info("registering event bus")
+	eventBus.logger.Info("registering handlers", zap.Int("number of handlers", len(params.Handlers)))
+	for _, h := range params.Handlers {
 		eventBus.Register(h.GetEventTypes(), h)
 	}
 

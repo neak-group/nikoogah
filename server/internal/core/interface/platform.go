@@ -11,10 +11,7 @@ import (
 var Module = fx.Module(
 	"platform",
 	fx.Provide(
-		fx.Annotate(
-			eventbus.ProvideEventBus,
-			fx.ParamTags(`group:"event-handlers"`),
-		),
+		eventbus.ProvideEventBus,
 		eventdispatcher.ProvideEventDispatcher,
 	),
 	fx.Provide(

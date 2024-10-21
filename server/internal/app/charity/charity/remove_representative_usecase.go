@@ -4,21 +4,21 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type RemoveRepresentativeUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.CharityRepository
 }
 
 type RemoveRepresentativeUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.CharityRepository
 }
@@ -26,15 +26,11 @@ type RemoveRepresentativeUCParams struct {
 func ProvideRemoveRepresentativeUC(params RemoveRepresentativeUCParams) *RemoveRepresentativeUseCase {
 	return &RemoveRepresentativeUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideRemoveRepresentativeUC)
 }
 
 func (uc RemoveRepresentativeUseCase) Execute(ctx context.Context, params dto.RemoveRepresentativeParams) error {

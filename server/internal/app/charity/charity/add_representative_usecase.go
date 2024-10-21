@@ -4,36 +4,32 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type AddRepresentativeUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.CharityRepository
 }
 
 type AddRepresentativeUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 	Repo repository.CharityRepository
 }
 
 func ProvideAddRepresentativeUC(params AddRepresentativeUCParams) *AddRepresentativeUseCase {
 	return &AddRepresentativeUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideAddRepresentativeUC)
 }
 
 func (uc AddRepresentativeUseCase) Execute(ctx context.Context, params *dto.AddRepresentativeParams) error {

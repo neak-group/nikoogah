@@ -4,22 +4,22 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type GetParticipantsUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo                        repository.RallyRepository
 	rallyParticipationQS        services.RallyParticipationQueryService
 	charityRepresentativeAccess services.CharityAccessService
 }
 
 type GetParticipantsUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 	Repo                        repository.RallyRepository
 	RallyParticipationQS        services.RallyParticipationQueryService
 	CharityRepresentativeAccess services.CharityAccessService
@@ -30,15 +30,11 @@ func ProvideGetParticipantsUC(params GetParticipantsUCParams) *GetParticipantsUs
 		repo:                        params.Repo,
 		rallyParticipationQS:        params.RallyParticipationQS,
 		charityRepresentativeAccess: params.CharityRepresentativeAccess,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideGetParticipantsUC)
 }
 
 type GetParticipantsParams struct {

@@ -1,30 +1,27 @@
 package app
 
 import (
+	"github.com/neak-group/nikoogah/internal/app/charity"
+	"github.com/neak-group/nikoogah/internal/app/rally"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"go.uber.org/fx"
-	"go.uber.org/zap"
 )
 
-func RegisterHandlerProvider(provider interface{}) {
-	if provider == nil {
-		return
+func GetHandlerProviders() []interface{} {
+	domainHandlerProviders := make([]interface{}, 0)
+
+	domainHandlerProviders = append(domainHandlerProviders, rally.GetHandlerProviders()...)
+	domainHandlerProviders = append(domainHandlerProviders, charity.GetHandlerProviders()...)
+
+	domainHandlerProvidersAnnotated := make([]interface{}, 0)
+
+	for _, hp := range domainHandlerProviders {
+		domainHandlerProvidersAnnotated = append(domainHandlerProvidersAnnotated, fx.Annotate(
+			hp,
+			fx.As(new(eventbus.EventHandler)),
+			fx.ResultTags(`group:"event-handlers"`),
+		))
 	}
 
-	if eventHandlerProviders == nil {
-		eventHandlerProviders = make([]interface{}, 0)
-	}
-	eventHandlerProviders = append(eventHandlerProviders, fx.Annotate(
-		provider,
-		fx.As(new(eventbus.EventHandler)),
-		fx.ResultTags(`group:"event-handlers"`),
-	))
-}
-
-type HandlerParams struct {
-	Logger *zap.Logger
-}
-
-type BaseHandler struct {
-	Logger *zap.Logger
+	return domainHandlerProvidersAnnotated
 }

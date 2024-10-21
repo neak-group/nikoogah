@@ -1,12 +1,11 @@
 package app
 
-func RegisterDomainServiceProvider(provider interface{}) {
-	if provider == nil {
-		return
-	}
+import "github.com/neak-group/nikoogah/internal/app/rally"
 
-	if domainServiceProviders == nil {
-		domainServiceProviders = make([]interface{}, 0)
-	}
-	domainServiceProviders = append(domainServiceProviders, provider)
+func GetDomainServiceProviders() []interface{} {
+	domainServiceProviders := make([]interface{}, 0)
+
+	domainServiceProviders = append(domainServiceProviders, rally.GetDomainServiceProviders()...)
+
+	return domainServiceProviders
 }

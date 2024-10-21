@@ -3,20 +3,20 @@ package charity
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type ModifyCharityUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.CharityRepository
 }
 
 type ModifyCharityUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.CharityRepository
 }
@@ -24,15 +24,11 @@ type ModifyCharityUCParams struct {
 func ProvideModifyCharityUC(params ModifyCharityUCParams) *ModifyCharityUseCase {
 	return &ModifyCharityUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideModifyCharityUC)
 }
 
 func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCharityParams) (uuid.UUID, error) {

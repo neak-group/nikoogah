@@ -3,22 +3,22 @@ package charity
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/dto"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/entity"
 	"github.com/neak-group/nikoogah/internal/app/charity/charity/repository"
+	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/domain/events"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
 
 type RegisterCharityUseCase struct {
-	app.BaseUseCase
+	base.BaseUseCase
 	repo repository.CharityRepository
 }
 
 type RegisterCharityUCParams struct {
-	app.UseCaseParams
+	base.UseCaseParams
 
 	Repo repository.CharityRepository
 }
@@ -26,15 +26,11 @@ type RegisterCharityUCParams struct {
 func ProvideRegisterCharityUC(params RegisterCharityUCParams) *RegisterCharityUseCase {
 	return &RegisterCharityUseCase{
 		repo: params.Repo,
-		BaseUseCase: app.BaseUseCase{
+		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
 		},
 	}
-}
-
-func init() {
-	app.RegisterUseCaseProvider(ProvideRegisterCharityUC)
 }
 
 func (uc RegisterCharityUseCase) Execute(ctx context.Context, params *dto.RegisterCharityParams) (uuid.UUID, error) {
@@ -86,7 +82,9 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params *dto.Regist
 	})
 
 	//TODO: fire event charity created
-	uc.EventDispatcher.DispatchBatch(charity.Events)
+	if err := uc.EventDispatcher.DispatchBatch(charity.Events); err != nil {
+		return uuid.Nil, err
+	}
 
 	return charityID, nil
 }

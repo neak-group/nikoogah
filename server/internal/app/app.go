@@ -3,11 +3,9 @@ package app
 import "go.uber.org/fx"
 
 func GetModule() fx.Option {
-	return fx.Module("application", fx.Provide(useCaseProviders...), fx.Provide(eventHandlerProviders...))
+	return fx.Module("application",
+		fx.Provide(GetUseCaseProviders()...),
+		fx.Provide(GetHandlerProviders()...),
+		fx.Provide(GetDomainServiceProviders()...),
+	)
 }
-
-var useCaseProviders []interface{}
-
-var eventHandlerProviders []interface{}
-
-var domainServiceProviders []interface{}
