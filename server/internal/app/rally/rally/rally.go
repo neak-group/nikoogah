@@ -15,6 +15,12 @@ func GetUseCaseProviders() []interface{} {
 
 	providers = append(providers, ProvideNewHumanParticipationUC)
 
+	providers = append(providers, ProvideFetchRalliesUC)
+
+	providers = append(providers, ProvideFetchRallyUC)
+
+	providers = append(providers, ProvideFetchCharityRalliesUC)
+
 	return providers
 }
 

@@ -6,6 +6,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/rally/volunteer/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/volunteer/repository"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
+	"github.com/neak-group/nikoogah/utils/contextutils"
 )
 
 type FetchProfileUseCase struct {
@@ -29,8 +30,12 @@ func ProvideFetchProfileUC(params FetchProfileUCParams) *FetchProfileUseCase {
 	}
 }
 
-func (uc FetchProfileUseCase) Execute(ctx context.Context, params *dto.FetchProfileParams) (*dto.ProfileDTO, error) {
-	volunteer, err := uc.repo.FetchVolunteer(ctx, params.VolunteerID)
+func (uc FetchProfileUseCase) Execute(ctx context.Context) (*dto.ProfileDTO, error) {
+	uid, err := contextutils.GetUserIDFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+	volunteer, err := uc.repo.FetchVolunteer(ctx, uid)
 	if err != nil {
 		return nil, err
 	}

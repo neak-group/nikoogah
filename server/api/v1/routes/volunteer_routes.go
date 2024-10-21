@@ -17,5 +17,5 @@ func AddVolunteerRoutes(parent *gin.RouterGroup, authRouter *auth.Authenticator,
 
 	volunteerGroup := parent.Group("/volunteer")
 
-	volunteerGroup.GET("/profile", params.VolunteerController.FetchProfile)
+	volunteerGroup.GET("/profile", params.VolunteerController.FetchMyProfile)
 }
