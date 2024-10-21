@@ -40,13 +40,12 @@ func (h UpdateVolunteerHandler) Handle(ctx context.Context, e eventbus.Event) er
 		h.Logger.Error("invalid event type")
 	}
 
-
-	volunteer,err := entity.UpdateVolunteer(userEvent.ID, userEvent.Name)
+	volunteer, err := entity.UpdateVolunteer(userEvent.ID, userEvent.Name)
 	if err != nil {
 		return err
 	}
 
-	err = h.repo.UpdateRepository(ctx, volunteer)
+	err = h.repo.UpdateVolunteer(ctx, volunteer)
 	if err != nil {
 		return err
 	}

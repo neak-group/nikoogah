@@ -6,6 +6,7 @@ import (
 
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
 	"github.com/neak-group/nikoogah/internal/app/user/entity"
+	"github.com/neak-group/nikoogah/internal/core/domain/events"
 )
 
 func (is *IdentityService) Verify(ctx context.Context, input *dto.OTPInput) (*dto.UserData, error) {
@@ -33,6 +34,15 @@ func (is *IdentityService) Verify(ctx context.Context, input *dto.OTPInput) (*dt
 		if err != nil {
 			return nil, err
 		}
+	}
+
+	user.Events = append(user.Events, events.UserJoinedEvent{
+		ID:   user.ID,
+		Name: fmt.Sprintf("%s %s", user.FirstName, user.LastName),
+	})
+
+	if err := is.eventDispatcher.Dispatch(user.Events[0]); err != nil {
+		return nil, err
 	}
 
 	return &dto.UserData{
