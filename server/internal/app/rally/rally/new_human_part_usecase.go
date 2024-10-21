@@ -1,6 +1,7 @@
 package rally
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
@@ -30,13 +31,13 @@ func ProvideNewHumanParticipationUC(params NewHumanParticipationUCParams) *NewHu
 	}
 }
 
-func (uc *NewHumanParticipationUseCase) Execute(params dto.NewHumanParticipationParams) error {
-	rally, err := uc.repo.FetchRally(params.RallyID)
+func (uc *NewHumanParticipationUseCase) Execute(ctx context.Context, params dto.NewHumanParticipationParams) error {
+	rally, err := uc.repo.FetchRally(ctx, params.RallyID)
 	if err != nil {
 		return err
 	}
 
-	count, err := uc.repo.FetchRallyParticipationCount(rally.ID, entity.ParticipationAccepted)
+	count, err := uc.repo.FetchRallyParticipationCount(ctx, rally.ID, entity.ParticipationAccepted)
 	if err != nil {
 		return err
 	}
@@ -50,7 +51,7 @@ func (uc *NewHumanParticipationUseCase) Execute(params dto.NewHumanParticipation
 		return err
 	}
 
-	err = uc.repo.SaveRally(rally)
+	err = uc.repo.SaveRally(ctx, rally)
 	if err != nil {
 		return err
 	}

@@ -42,7 +42,7 @@ type GetParticipantsParams struct {
 }
 
 func (uc *GetParticipantsUseCase) Execute(ctx context.Context, params GetParticipantsParams) ([]*dto.HumanParticipationDTO, error) {
-	rally, err := uc.repo.FetchRally(params.RallyID)
+	rally, err := uc.repo.FetchRally(ctx, params.RallyID)
 	if err != nil {
 		return nil, err
 	}

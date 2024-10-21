@@ -34,12 +34,12 @@ func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {
 }
 
 func (uc *NewRallyUseCase) Execute(ctx context.Context, params dto.NewRallyParams) (uuid.UUID, error) {
-	max, err := uc.repo.FetchCharityRallyLimit(params.CharityID)
+	max, err := uc.repo.FetchCharityRallyCount(ctx, params.CharityID)
 	if err != nil {
 		return uuid.Nil, err
 	}
 
-	prev, err := uc.repo.FetchRalliesByChrityID(params.CharityID, true)
+	prev, err := uc.repo.FetchRalliesByCharityID(ctx, params.CharityID, true)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -55,7 +55,7 @@ func (uc *NewRallyUseCase) Execute(ctx context.Context, params dto.NewRallyParam
 
 	// TODO: End Rally Scheduled Job
 
-	err = uc.repo.SaveRally(rally)
+	err = uc.repo.SaveRally(ctx, rally)
 	if err != nil {
 		return uuid.Nil, err
 	}

@@ -20,27 +20,27 @@ const (
 )
 
 type Rally struct {
-	ID          uuid.UUID
-	Title       string
-	CharityID   uuid.UUID
-	EndDate     time.Time
-	Description string
-	State       RallyState
-	RallyFee    decimal.Decimal
+	ID          uuid.UUID          `bson:"id"`
+	Title       string             `bson:"title"`
+	CharityID   uuid.UUID          `bson:"charity_id"`
+	EndDate     time.Time          `bson:"end_date"`
+	Description string             `bson:"description"`
+	State       RallyState         `bson:"state"`
+	RallyFee    decimal.Decimal    `bson:"rally_fee"`
 
-	NeedsHumanParticipation bool
-	ApplicantCap            int
-	HumanParticipations     []*HumanParticipation
+	NeedsHumanParticipation bool              `bson:"needs_human_participation"`
+	ApplicantCap            int               `bson:"applicant_cap"`
+	HumanParticipations     []*HumanParticipation `bson:"human_participations"`
 
-	NeedsFunding      bool
-	FundAmount        decimal.Decimal
-	OpenFund          bool
-	FundParticipation []*FundParticipation
+	NeedsFunding      bool              `bson:"needs_funding"`
+	FundAmount        decimal.Decimal   `bson:"fund_amount"`
+	OpenFund          bool              `bson:"open_fund"`
+	FundParticipation []*FundParticipation `bson:"fund_participation"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time          `bson:"created_at"`
+	UpdatedAt time.Time          `bson:"updated_at"`
 
-	Events []eventbus.Event
+	Events []eventbus.Event      `bson:"-"`
 }
 
 func NewRally(title, description string, charityID uuid.UUID, EndDate time.Time) (*Rally, error) {

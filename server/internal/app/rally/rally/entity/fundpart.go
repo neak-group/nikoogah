@@ -8,7 +8,7 @@ import (
 )
 
 type FundParticipation struct {
-	Amount      decimal.Decimal
-	VolunteerID uuid.UUID
-	Date        time.Time
+	Amount      decimal.Decimal    `bson:"amount"`
+	VolunteerID uuid.UUID          `bson:"volunteer_id"`
+	Date        time.Time          `bson:"date"`
 }

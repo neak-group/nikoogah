@@ -11,9 +11,9 @@ const (
 )
 
 type HumanParticipation struct {
-	VolunteerID uuid.UUID
-	Phone       string
-	Email       string
-	ResumeFile  string
-	Status      ParticipationStatus
+	VolunteerID uuid.UUID          `bson:"volunteer_id"`
+	Phone       string             `bson:"phone"`
+	Email       string             `bson:"email"`
+	ResumeFile  string             `bson:"resume_file"`
+	Status      ParticipationStatus `bson:"status"`
 }

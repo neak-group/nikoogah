@@ -35,7 +35,7 @@ func NewRallyParticipationQueryService(params RallyParticipationQueryServicePara
 }
 
 func (qs *RallyParticipationQueryServiceImpl) GetRallyHumanParticipation(ctx context.Context, rallyID uuid.UUID) ([]*dto.HumanParticipationDTO, error) {
-	rally, err := qs.rallyRepo.FetchRally(rallyID)
+	rally, err := qs.rallyRepo.FetchRally(ctx, rallyID)
 	if err != nil {
 		return nil, err
 	}
