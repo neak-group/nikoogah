@@ -1,9 +1,9 @@
 package volunteerrepo
 
 import (
-	"github.com/neak-group/nikoogah/internal/app/volunteer/volunteer/repository"
+	"github.com/neak-group/nikoogah/internal/app/rally/volunteer/repository"
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"
-	"github.com/neak-group/nikoogah/internal/repository/volunteer/volunteerrepo/mongo"
+	"github.com/neak-group/nikoogah/internal/repository/rally/volunteerrepo/mongo"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -20,7 +20,7 @@ func ProvideMongoRepositoryImpl(params MongoRepositoryImplParams) repository.Vol
 		MongoClient: params.MongoClient,
 		Logger:      params.Logger,
 
-		VolunteerDatabase:    "volunteer_database",
-		VolunteersCollection: "vol_volunteer",
+		RallyDatabase:        "rally_database",
+		VolunteersCollection: "rly_volunteer",
 	}
 }

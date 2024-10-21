@@ -55,7 +55,7 @@ func (qs *RallyParticipationQueryServiceImpl) GetRallyHumanParticipation(ctx con
 
 	participants := make(map[uuid.UUID]*volunteerEntity.Volunteer)
 	for _, p := range participantData {
-		participants[p.VolunteerID] = p
+		participants[p.UserID] = p
 	}
 
 	for _, hp := range rally.HumanParticipations {

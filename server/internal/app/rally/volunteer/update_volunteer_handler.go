@@ -3,8 +3,8 @@ package volunteer
 import (
 	"context"
 
-	"github.com/neak-group/nikoogah/internal/app/volunteer/volunteer/entity"
-	"github.com/neak-group/nikoogah/internal/app/volunteer/volunteer/repository"
+	"github.com/neak-group/nikoogah/internal/app/rally/volunteer/entity"
+	"github.com/neak-group/nikoogah/internal/app/rally/volunteer/repository"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/internal/core/domain/events"
 	"github.com/neak-group/nikoogah/internal/core/service/eventbus"

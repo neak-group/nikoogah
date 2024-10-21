@@ -8,5 +8,7 @@ import (
 )
 
 type VolunteerRepository interface {
-	FetchVolunteersByBatchID(ctx context.Context, ids uuid.UUIDs) ([]*entity.Volunteer, error)
+	UpdateVolunteer(ctx context.Context, volunteer *entity.Volunteer) error
+	FetchVolunteer(ctx context.Context, id uuid.UUID) (*entity.Volunteer, error)
+	FetchVolunteersByBatchID(ctx context.Context, ids []uuid.UUID) ([]*entity.Volunteer, error)
 }

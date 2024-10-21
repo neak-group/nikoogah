@@ -7,3 +7,11 @@ func GetHandlerProviders() []interface{} {
 
 	return providors
 }
+
+func GetUseCaseProviders() []interface{} {
+	providors := make([]interface{}, 0)
+
+	providors = append(providors, ProvideFetchProfileUC)
+
+	return providors
+}
