@@ -39,14 +39,14 @@ func (r *RlyCharityMongoRepository) FetchCharity(ctx context.Context, charityID 
 
 	collection := db.Collection(r.CharitiesCollection)
 	var charity entity.Charity
-	filter := bson.M{"charity_id": charityID}
+	filter := bson.M{"id": charityID}
 
 	err = collection.FindOne(ctx, filter).Decode(&charity)
 	if err != nil {
+		r.Logger.Error("Error fetching charity by CharityID", zap.Error(err), zap.String("id", charityID.String()))
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, nil // Charity not found
 		}
-		r.Logger.Error("Error fetching charity by CharityID", zap.Error(err))
 		return nil, err
 	}
 

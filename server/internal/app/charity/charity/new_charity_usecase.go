@@ -78,7 +78,7 @@ func (uc RegisterCharityUseCase) Execute(ctx context.Context, params *dto.Regist
 		Name:          charity.Name,
 		Phone:         charity.Phone.Number,
 		Email:         string(charity.EmailAddress),
-		MaxRallyLimit: entity.TierMap[charity.CharityTier].GetRallyLimit(),
+		MaxRallyLimit: entity.TierMap["basic"].GetRallyLimit(),
 	})
 
 	//TODO: fire event charity created

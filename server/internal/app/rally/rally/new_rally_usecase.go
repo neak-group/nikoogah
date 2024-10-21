@@ -7,6 +7,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
@@ -14,18 +15,21 @@ import (
 type NewRallyUseCase struct {
 	base.BaseUseCase
 
-	repo repository.RallyRepository
+	repo                repository.RallyRepository
+	charityRallyLimitQS services.CharityRallyQueryService
 }
 
 type NewRallyUCParams struct {
 	base.UseCaseParams
 
-	Repo repository.RallyRepository
+	Repo                repository.RallyRepository
+	CharityRallyLimitQS services.CharityRallyQueryService
 }
 
 func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {
 	return &NewRallyUseCase{
-		repo: params.Repo,
+		repo:                params.Repo,
+		charityRallyLimitQS: params.CharityRallyLimitQS,
 		BaseUseCase: base.BaseUseCase{
 			Logger:          params.Logger,
 			EventDispatcher: params.EventDispatcher,
@@ -34,18 +38,13 @@ func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {
 }
 
 func (uc *NewRallyUseCase) Execute(ctx context.Context, params *dto.NewRallyParams) (uuid.UUID, error) {
-	max, err := uc.repo.FetchCharityRallyCount(ctx, params.CharityID)
+	limited, err := uc.charityRallyLimitQS.CheckCharityRallyLimit(ctx, params.CharityID)
 	if err != nil {
 		return uuid.Nil, err
 	}
 
-	prev, err := uc.repo.FetchRalliesByCharityID(ctx, params.CharityID, true)
-	if err != nil {
-		return uuid.Nil, err
-	}
-
-	if len(prev) >= max {
-		return uuid.Nil, fmt.Errorf("max rally limit")
+	if limited {
+		return uuid.Nil, fmt.Errorf("rally limit reached")
 	}
 
 	rally, err := entity.NewRally(params.Title, params.Description, params.CharityID, params.EndDate)

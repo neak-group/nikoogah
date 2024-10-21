@@ -11,6 +11,7 @@ import (
 	"github.com/shopspring/decimal"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.uber.org/zap"
 )
 
@@ -148,7 +149,7 @@ func (r *RallyMongoRepository) SaveRally(ctx context.Context, rally *entity.Rall
 	filter := bson.M{"id": rally.ID}
 	update := bson.M{"$set": rally}
 
-	_, err = collection.UpdateOne(ctx, filter, update)
+	_, err = collection.UpdateOne(ctx, filter, update, options.Update().SetUpsert(true))
 	if err != nil {
 		r.Logger.Error("Error saving rally", zap.Error(err))
 		return err

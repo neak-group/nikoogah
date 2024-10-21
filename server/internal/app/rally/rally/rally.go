@@ -28,6 +28,7 @@ func GetDomainServiceProviders() []interface{} {
 	providers := make([]interface{}, 0)
 
 	providers = append(providers, services.NewRallyParticipationQueryService)
+	providers = append(providers, services.NewCharityRallyQueryService)
 
 	return providers
 }
