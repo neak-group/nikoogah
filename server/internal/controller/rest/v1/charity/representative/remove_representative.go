@@ -23,7 +23,7 @@ func (rc *RepresentativeController) RemoveRepresentative(c *gin.Context) {
 		return
 	}
 
-	err = rc.addRepUseCase.Execute(ctx, &dto.AddRepresentativeParams{
+	err = rc.removeRepUseCase.Execute(ctx, dto.RemoveRepresentativeParams{
 		CharityID: charityID,
 		UserID:    repID,
 	})
