@@ -35,7 +35,7 @@ func MapAccessKey(AKstr string) (CharityAccess, error) {
 }
 
 var roleAccess map[RepresentativeRole][]CharityAccess = map[RepresentativeRole][]CharityAccess{
-	Manager: []CharityAccess{
+	Manager: {
 		ViewCharityAK,
 		EditCharityAK,
 		AddNewRallyAK,
@@ -43,7 +43,7 @@ var roleAccess map[RepresentativeRole][]CharityAccess = map[RepresentativeRole][
 		ViewParticipationAK,
 		ManageParticipationAK,
 	},
-	Employee: []CharityAccess{
+	Employee: {
 		ViewCharityAK,
 		AddNewRallyAK,
 		ViewParticipationAK,

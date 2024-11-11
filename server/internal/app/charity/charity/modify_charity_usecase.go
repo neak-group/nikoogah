@@ -39,6 +39,7 @@ func (uc ModifyCharityUseCase) Execute(ctx context.Context, params dto.ModifyCha
 	charity.Events = make([]eventbus.Event, 0)
 
 	//TODO[security]: check representative access
+	
 
 	err = charity.UpdateCharityName(params.Name)
 	if err != nil {
