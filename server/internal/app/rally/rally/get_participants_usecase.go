@@ -7,20 +7,21 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/services/query"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
 )
 
 type GetParticipantsUseCase struct {
 	base.BaseUseCase
 	repo                        repository.RallyRepository
-	rallyParticipationQS        services.RallyParticipationQueryService
+	rallyParticipationQS        query.RallyParticipationQueryService
 	charityRepresentativeAccess services.CharityAccessService
 }
 
 type GetParticipantsUCParams struct {
 	base.UseCaseParams
 	Repo                        repository.RallyRepository
-	RallyParticipationQS        services.RallyParticipationQueryService
+	RallyParticipationQS        query.RallyParticipationQueryService
 	CharityRepresentativeAccess services.CharityAccessService
 }
 

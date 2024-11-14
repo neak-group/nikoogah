@@ -7,7 +7,7 @@ import (
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/dto"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/entity"
 	"github.com/neak-group/nikoogah/internal/app/rally/rally/repository"
-	"github.com/neak-group/nikoogah/internal/app/rally/rally/services"
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/services/query"
 	"github.com/neak-group/nikoogah/internal/core/domain/base"
 	"github.com/neak-group/nikoogah/utils/uuid"
 )
@@ -16,14 +16,14 @@ type NewRallyUseCase struct {
 	base.BaseUseCase
 
 	repo                repository.RallyRepository
-	charityRallyLimitQS services.CharityRallyQueryService
+	charityRallyLimitQS query.CharityRallyQueryService
 }
 
 type NewRallyUCParams struct {
 	base.UseCaseParams
 
 	Repo                repository.RallyRepository
-	CharityRallyLimitQS services.CharityRallyQueryService
+	CharityRallyLimitQS query.CharityRallyQueryService
 }
 
 func ProvideNewRallyUC(params NewRallyUCParams) *NewRallyUseCase {

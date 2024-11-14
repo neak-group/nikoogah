@@ -1,6 +1,8 @@
 package rally
 
-import "github.com/neak-group/nikoogah/internal/app/rally/rally/services"
+import (
+	"github.com/neak-group/nikoogah/internal/app/rally/rally/services/query"
+)
 
 func GetUseCaseProviders() []interface{} {
 	providers := make([]interface{}, 0)
@@ -27,8 +29,8 @@ func GetUseCaseProviders() []interface{} {
 func GetDomainServiceProviders() []interface{} {
 	providers := make([]interface{}, 0)
 
-	providers = append(providers, services.NewRallyParticipationQueryService)
-	providers = append(providers, services.NewCharityRallyQueryService)
+	providers = append(providers, query.NewRallyParticipationQueryService)
+	providers = append(providers, query.NewCharityRallyQueryService)
 
 	return providers
 }
