@@ -1,0 +1,32 @@
+services:
+  nikoogah:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-server
+    networks:
+      - backtier
+    depends_on:
+      - session-db
+      - nkg-db
+  session-db:
+    image: redis:latest
+    networks:
+      - backtier
+  nkg-db:
+    image: mongo:latest
+    networks:
+      - backtier
+    volumes:
+      - db-data:/data/db
+  nkg-gateway:
+    image: nginx
+    networks:
+      - frontier
+      - backtier
+    
+networks:
+  backtier:
+  frontier:
+
+volumes:
+  db-data:
