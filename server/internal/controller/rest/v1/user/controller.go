@@ -3,7 +3,7 @@ package user
 import (
 	"github.com/neak-group/nikoogah/internal/app/user"
 	v1 "github.com/neak-group/nikoogah/internal/controller/rest/v1"
-	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
+	"github.com/neak-group/nikoogah/internal/services/core/security/session"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )

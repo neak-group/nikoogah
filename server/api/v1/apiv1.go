@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/api/auth"
 	"github.com/neak-group/nikoogah/api/v1/routes"
-	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
+	"github.com/neak-group/nikoogah/internal/services/core/security/session"
 	"go.uber.org/fx"
 )
 

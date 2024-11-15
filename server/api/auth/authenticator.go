@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
+	"github.com/neak-group/nikoogah/internal/services/core/security/session"
 	"github.com/neak-group/nikoogah/utils/contextutils"
 	"go.uber.org/zap"
 )

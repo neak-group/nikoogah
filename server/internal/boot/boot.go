@@ -7,7 +7,7 @@ import (
 	"github.com/neak-group/nikoogah/api"
 	"github.com/neak-group/nikoogah/internal/app"
 	"github.com/neak-group/nikoogah/internal/controller"
-	platform "github.com/neak-group/nikoogah/internal/core/interface"
+	platform "github.com/neak-group/nikoogah/internal/services/core"
 	"github.com/neak-group/nikoogah/internal/infra/httpserver"
 	"github.com/neak-group/nikoogah/internal/infra/keystorefx"
 	"github.com/neak-group/nikoogah/internal/infra/mongofx"

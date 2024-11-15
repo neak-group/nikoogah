@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/neak-group/nikoogah/internal/app/user/dto"
-	"github.com/neak-group/nikoogah/internal/core/interface/security/session"
+	"github.com/neak-group/nikoogah/internal/services/core/security/session"
 )
 
 func (uc *UserController) VerifyPhone(c *gin.Context) {

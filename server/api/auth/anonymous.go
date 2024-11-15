@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/neak-group/nikoogah/internal/core/interface/security/session"
+import "github.com/neak-group/nikoogah/internal/services/core/security/session"
 
 func NewAuthenticator(sessionSerivce *session.SessionService) *Authenticator {
 	return &Authenticator{
